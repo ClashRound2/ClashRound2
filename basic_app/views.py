@@ -58,7 +58,6 @@ def questions(request, id=1):
             user.save()
 
             dict = {'q': q, 't': Timer(user.time), 's': user.score}
-            Static.Flag = True
 
             return render(request, 'basic_app/Codingg.html', context=dict)
 
@@ -243,7 +242,6 @@ def question_panel(request):
         percentage_accuracy = [0, 0, 0, 0, 0, 0]
         user_count = 0
 
-
         for user in all_user:
             user_count += 1
             if user.quest1test == 100:
@@ -277,6 +275,9 @@ def question_panel(request):
             subs.append(all_question[i]._submissions)
 
         dict={'t':Timer(user.time), 'a0': percentage_accuracy[0], 'a1': percentage_accuracy[1], 'a2': percentage_accuracy[2], 'a3': percentage_accuracy[3], 'a4': percentage_accuracy[4], 'a5': percentage_accuracy[5], 'subs0': subs[0], 'subs1': subs[1], 'subs2': subs[2], 'subs3': subs[3], 'subs4': subs[4], 'subs5': subs[5]}
+
+        Static.Flag = True
+
         return render(request,'basic_app/Question Hub.html', context=dict)
     else:
         return HttpResponse("This is wrong boi")
@@ -297,7 +298,7 @@ def leader(request):
 def instructions(request):
     if request.user.is_authenticated:
         if request.method=="POST":
-            return HttpResponseRedirect(reverse('basic_app:questions'))
+            return HttpResponseRedirect(reverse('basic_app:question_panel'))
         return render(request,'basic_app/instruction.html')
     else:
         return HttpResponse("This is wrong boi")
