@@ -17,12 +17,33 @@ path2 = 'data/standard'
 path3 = 'data/standard/testcaseScore'
 
 
+class Static:
+    Flag = False
+    subSec = 0
+
+
+def Timer(_time):
+
+    if not Static.Flag:
+        nowSub = datetime.datetime.now()
+        Static.subSec = nowSub.minute * 60 + nowSub.second
+
+    now = datetime.datetime.now()
+    minutes = now.minute * 60
+    seconds = now.second
+    count = minutes + seconds
+    total_count = _time - count + Static.subSec
+
+    return total_count
+
+
 def questions(request, id=1):
     if request.user.is_authenticated:
         if request.method == 'GET':
             a = Questions.objects.all()
             user = UserProfileInfo.objects.get(user=request.user)
             user.question_id = int(id)
+            user.time = 10
             Q = a[user.question_id-1]
             q = Q.questions
 
@@ -36,13 +57,9 @@ def questions(request, id=1):
                     os.system('mkdir {}/{}/question{}'.format(path, username, i))
 
             user.save()
-            now = datetime.datetime.now()
-            minutes = now.minute*60
-            seconds = now.second
-            count = minutes+seconds
-            total_count = user.time-count
 
-            dict = {'q': q, 't': total_count, 's': user.score}
+            dict = {'q': q, 't': Timer(user.time), 's': user.score}
+            Static.Flag = True
 
             return render(request, 'basic_app/Codingg.html', context=dict)
 
@@ -117,7 +134,6 @@ def questions(request, id=1):
                 if tcOut[0] == 5 or tcOut[1] == 5 or tcOut[2] == 5 or tcOut[3] == 5 or tcOut[4] == 5:
                     cerror = "Abnormal Termination"
 
-
                 if int(id) == 1:
                     if user.quest1test <= user.score:
                         user.quest1test = user.score
@@ -144,11 +160,6 @@ def questions(request, id=1):
                     user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test) // 5
 
                 user.save()
-                now = datetime.datetime.now()
-                minutes = now.minute * 60
-                seconds = now.second
-                count = minutes + seconds
-                total_count = user.time - count
 
                 a = Questions.objects.all()
                 Q = a[user.question_id - 1]
@@ -175,7 +186,7 @@ def questions(request, id=1):
                 print(subb.testCaseScore)
                 subb.save()
 
-                dictt = {'s':user.score,'e':cerror,'d':user.question_id,'t':total_count,'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
+                dictt = {'s':user.score,'e':cerror,'d':user.question_id,'t':Timer(user.time),'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
 
             return render(request, 'basic_app/Test Casee.html',context=dictt)
 
@@ -185,11 +196,8 @@ def questions(request, id=1):
 
             try:
                 option = user.option
-
-
                 z = open('{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts,
                                                            option), 'r')
-
                 read = z.read()
 
                 user.save()
@@ -230,16 +238,12 @@ def questions(request, id=1):
 def question_panel(request):
 
     if request.user.is_authenticated:
+        user = UserProfileInfo.objects.get(user=request.user)
         all_user = UserProfileInfo.objects.all()
         accuracy_count = [0, 0, 0, 0, 0, 0]
         percentage_accuracy = [0, 0, 0, 0, 0, 0]
         user_count = 0
-        now = datetime.datetime.now()
-        minutes = now.minute * 60
-        seconds = now.second
-        count = minutes + seconds
-        user = UserProfileInfo.objects.get(user=request.user)
-        total_count = user.time - count
+
 
         for user in all_user:
             user_count += 1
@@ -273,7 +277,7 @@ def question_panel(request):
         for i in range(0,6):
             subs.append(all_question[i]._submissions)
 
-        dict={'t':total_count, 'a0': percentage_accuracy[0], 'a1': percentage_accuracy[1], 'a2': percentage_accuracy[2], 'a3': percentage_accuracy[3], 'a4': percentage_accuracy[4], 'a5': percentage_accuracy[5], 'subs0': subs[0], 'subs1': subs[1], 'subs2': subs[2], 'subs3': subs[3], 'subs4': subs[4], 'subs5': subs[5]}
+        dict={'t':Timer(user.time), 'a0': percentage_accuracy[0], 'a1': percentage_accuracy[1], 'a2': percentage_accuracy[2], 'a3': percentage_accuracy[3], 'a4': percentage_accuracy[4], 'a5': percentage_accuracy[5], 'subs0': subs[0], 'subs1': subs[1], 'subs2': subs[2], 'subs3': subs[3], 'subs4': subs[4], 'subs5': subs[5]}
         return render(request,'basic_app/Question Hub.html', context=dict)
     else:
         return HttpResponse("This is wrong boi")
@@ -281,15 +285,10 @@ def question_panel(request):
 
 def leader(request):
     if request.user.is_authenticated:
-        now = datetime.datetime.now()
-        minutes = now.minute * 60
-        seconds = now.second
-        count = minutes + seconds
         user = UserProfileInfo.objects.get(user=request.user)
-        total_count = user.time - count
         a=UserProfileInfo.objects.order_by("total")
         b=a.reverse()
-        dict={'list':b,'t':total_count}
+        dict={'list':b,'t': Timer(user.time)}
         return render(request,'basic_app/Leaderboard.html',context=dict)
 
     else:
@@ -366,21 +365,13 @@ def sub(request):
     for i in a:
         TS.append(i.testCaseScore)
 
-    print("THIS IS TCS", TS)
-
-    now = datetime.datetime.now()
-    minutes = now.minute * 60
-    seconds = now.second
-    count = minutes + seconds
-    user = UserProfileInfo.objects.get(user=request.user)
-    total_count = user.time - count
-
-    dict={'loop':TS,'timer':total_count}
+    dict={'loop':TS,'timer':Timer(user.time)}
     return render(request,'basic_app/Submissionn.html',context=dict)
 
 
 def retry(request,id=1):
     if request.method=="GET":
+        user = UserProfileInfo.objects.get(user=request.user)
         a = submissions.objects.filter(user=request.user)
         array=[]
         idd=[]
@@ -393,13 +384,7 @@ def retry(request,id=1):
         f=idd[int(id)-1]
         q=var[int(f)-1]
         question=q.questions
-        now = datetime.datetime.now()
-        minutes = now.minute * 60
-        seconds = now.second
-        count = minutes + seconds
-        user = UserProfileInfo.objects.get(user=request.user)
-        total_count = user.time - count
-        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':total_count}
+        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':Timer(user.time)}
 
         return render(request, 'basic_app/Codingg.html', context=dict)
     if request.method=="POST":

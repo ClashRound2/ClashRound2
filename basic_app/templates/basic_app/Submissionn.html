@@ -21,7 +21,7 @@
 <body style="background-image:url({% static 'Images/p.jpg' %});background-size: cover">
 
 <nav class="navbar navbar-expand-lg  navbar-dark  fixed-top " style="height:7vh; background-color:rgba(0,0,0,0.6);">
-  <img src="Images/clash.png" style="height: 7vh;width:9vh;"><B class="ml-3" style="color: white;font-size: 155%">SUBMISSION</B><B
+  <img src="{% static "Images/clash.png" %}" style="height: 7vh;width:9vh;"><B class="ml-3" style="color: white;font-size: 155%">SUBMISSION</B><B
     class="ml-2" style="color: white;font-size:155%">PAGE</B>
   <ul class="nav navbar-nav d-flex justify-content-end" style="width:100%;">
     <div class="mt-2 mr-1 clock" style="width:39vh;height:6.5vh;margin:auto;"></div>
@@ -67,8 +67,8 @@
             {% for TCS in loop %}
 
               <tr class="g">
-                <td class="col-lg-1">{{ forloop.counter }}</td>
-                <td class="col-lg-3"><input type="text" class="e"></input></td>
+                <td class="col-lg-1" color="white">{{ forloop.counter }}</td>
+                <td class="col-lg-3"><input type="text" class="e"></td>
                 <td class="col-lg-4"><div class="progress a">
                   <div class="progressbar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="1000" style="width: {{ TCS }}%">
                     <div style="align-items: center;height: 100%;position: absolute;text-align: center;margin-left:8.3vh">{{ TCS }}%</div>
