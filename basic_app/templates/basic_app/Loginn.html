@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+
+<head>
+    <title>CLASH LOGIN PAGE</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/stylenew.css" %}">
+    <script src="{% static "cdn/a.js" %}"></script>
+    <script src="{% static "cdn/b.js" %}"></script>
+    <script src="{% static "cdn/c.js" %}"></script>
+</head>
+
+<body style="background-image:url({% static "Images/p.jpg" %});" onload="hide()">
+
+    <nav class="navbar navbar-expand-lg navig">
+
+<img src="{% static "Images/clash.png" %}"style="height: 7vh;width:9vh;">
+      
+           <ul class="navbar-nav d-flex justify-content-end" style="width: 100%;">
+                 
+           <a class="navbar-brand ml-3" href="#!">
+           <img src="{% static "Images/pisb1.png" %}" href="#!" style="height:5vh;width:100px;">
+           </a>
+        </nav>
+    <div class="container-fluid div" style="border:2px solid transparent">
+        <div class="row " style="border:2px solid transparent; display: flex; justify-content: center;">
+            <div class="col-lg-3 b" >
+                <form method="post" class="form-group">
+                    <fieldset>                       
+                        <ul class="nav nav-tabs">
+                            <li class="active  a" >
+                                    <a class="nav-link a active" data-toggle="tab" href="#menu1">PLAYER 1</a></li>
+                                    <li class=" a" >        
+                                    <a class="nav-link a " data-toggle="tab" href="#menu2">PLAYER 2</a></li>                               
+                        </ul>
+                        <div class="tab-content">
+                            <div id="menu1" class="tab-pane active">
+                                <section class="form-group">
+                                    <label for="name"></label>
+                                    <input type="text" name="name1" required class="form-control" placeholder="Name"onclick="this.placeholder=''" onblur="this.placeholder='Name'">
+                                </section>
+                                <section class="form-group">
+                                    <label for="email"></label>
+                                    <input type="email" class="form-control" name="email1" required placeholder="Email" onclick="this.placeholder=''" onblur="this.placeholder='Email'">
+                                </section>
+                                <section class="form-group">
+                                    <label for="tel"></label>
+                                    <input type="tel" class="form-control" name="phone1" required placeholder="Mobile No"onclick="this.placeholder=''" onblur="this.placeholder='Mobile No'">
+                                </section>
+                            </div>
+                            <div id="menu2" class="tab-pane fade">
+                                <section class="form-group">
+                                    <label for="name"></label>
+                                    <input type="text" class="form-control" name="name2" placeholder="Name"onclick="this.placeholder=''" onblur="this.placeholder='Name'">
+                                </section>
+                                <section class="form-group">
+                                    <label for="email"></label>
+                                    <input type="email" class="form-control" name="email2" placeholder="Email"onclick="this.placeholder=''" onblur="this.placeholder='Email'">
+                                </section>
+                                <section class="form-group">
+                                    <label for="tel"></label>
+                                    <input type="tel" class="form-control" name="phone2" placeholder="Mobile No"onclick="this.placeholder=''" onblur="this.placeholder='Mobile No'">
+                                </section>
+                            </div>
+                        </div>
+                    </fieldset>
+
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3 col-lg-offset-2 div ml-2 r">
+                <form class="form-container">
+                    <fieldset>
+					<div class="col-lg-12" style="border:None;border-bottom:1px solid white;">
+                        <h3 style="text-align: center;color:black;font-weight:100">REGISTER</h3>
+						</div>
+                        <div class="form-group" style="padding:3vh 0vh">
+                            <label></label>
+                            <input type="text" class="form-control"name="name" placeholder="Username" onkeyup="check(this.value)" onclick="this.placeholder=''" onblur="this.placeholder='Username'">
+                        </div>
+                        <div class="col pb-1" >
+    <div class=" col" style="color:red;display:none;"  id="login_not">
+						 <i class="fa fa-exclamation-triangle" aria-hidden="true" style=""></i>
+                         Username already taken.</div>
+                    <div class="col" style="color: green;display:block;" id="login_ok">
+					 <i class="fa fa-check" aria-hidden="true" style=""></i>
+                         Username available.
+                    </div>
+					</div>
+                        <div class="form-group">
+                            <label for="pwd"></label>
+                            <input type="password" class="form-control"name="password" placeholder="Password"onclick="this.placeholder=''" onblur="this.placeholder='Password'">
+                        </div>
+                        <div class="row" style="margin-left: 5vw;margin-top: 10vh;">
+                            <input type="radio"value="junior" class="m1-4" checked name="level" style="transform: scale(1.2)">  <font style="margin-left: 1vw;font-size: 120%">Junior</font>
+                            <input type="radio"value="junior" class="ml-4" name="level" style="transform: scale(1.2)" > <font style="margin-left: 1vw;font-size: 120%">Senior</font>
+                        </div>
+                    </fieldset>
+
+            </div>
+        </div>
+        <div class="row mt-5" style="display: flex; justify-content: center; ">
+            <button type="submit" class="btn n button t" style="background-color: rgba(255, 255, 255, 0.4);font-weight: bold">GET STARTED</button>
+        </div>
+
+    </div>
+    <footer class="footer" style="padding-top: 10px;background-color: rgb(0,0,0,0.6)">
+        <p><b>©PICT IEEE STUDENT BRANCH</b></p>
+    </footer>
+{% csrf_token %}
+</form>
+
+
+
+</body>
+<script>
+    function check(str) {
+   $.ajax({
+        url : "{% url 'basic_app:checkuser' %}",
+        data : {'name':str,'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()},
+        method: "POST",
+        dataType : "json",
+        success : function (data) {
+         if (data.is_success) {
+                $("#login_not").hide();
+                $("#login_ok").show();
+            } else {
+                $("#login_ok").hide();
+                $("#login_not").show();
+            }
+        }
+    });
+}
+function hide(){
+$("#login_ok").hide();
+}
+</script>

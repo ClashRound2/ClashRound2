@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{%load staticfiles %}
+
+<html>
+    <head>
+        <title>
+            Result Page
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{%static "css/style.css" %}">
+        <link rel="stylesheet" href="{%static "css/bootstrap.min.css" %}">
+    </head>
+    <body style="background-image:url({%static "Images/p.jpg" %});">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="height:7vh;background-color: rgba(0,0,0,0.6)">
+<img src="{% static "Images/clash.png" %}" style="height: 7vh;width:9vh;">
+<b style="color: white">RESULT</b>
+<b class="ml-2"style="color: white">PAGE</b>
+            <div class="d-flex justify-content-end" style="width:100%;">
+                <section>
+<img src="{% static "Images/pisb1.png" %}" style="height:5vh;width:10vh">
+                </section>
+            </div>
+        </nav>
+        <div class="contianer mx-auto body">
+            <div class="d-flex p-2  justify-content-center" style="margin-top: 9.5vh;">
+<div class="container" style=" width: 57%;">
+    <h1 style="font-size: 2rem;font-weight: 100;text-decoration: underline">TeamName:{{name}}
+                </h1>
+                    <div class="d-flex justify-content-between row mt-4">
+                        <section class="col-lg-2 col-0 col-sm-0 col-md-1"></section>
+                        <div class="p-2 col-sm-4 col-5 col-md-4 col-lg-2 boxin">RANK
+                        <section class="p-2 col-12 col-lg-12 col-sm-12 col-md-12"><h4 class="">{{count}}</h4></section>
+                        </div>
+                        <section class="col-lg-2 col-1 col-sm-1 col-md-1"></section>
+                        <div class="p-2 col-5 col-lg-2 col-sm-4 col-md-4 boxin">SCORE
+                        <section class="p-2 col-12 col-lg-12 col-sm-12 col-md-12"><h4 class="">{{score}}</h4></section>
+                        </div>
+                        <section class="col-0 col-lg-2 col-sm-0 col-md-1"></section> 
+            </div>    
+            </div>
+        </div> 
+        </div>
+        <div class="container-fluid" style="width: 50%;">
+        <section class="col-12 col-lg-12 col-sm-12 col-md-12">       
+            <h1 style="text-align: center; margin-top: 40px; margin-bottom: 40px;font-size: 2rem;font-weight: 100;text-decoration: underline" >SCOREBOARD</h1>       
+        <table style=" box-shadow: 0 20px 20px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);" class="container table table-striped table-bordered table-hover board" style="width: 70%">
+                <thead class="thead-dark">
+                 <tr>
+                 <th style="width: 10%;text-align: cente;font-weight: 100;">RANK</th>
+<th style="text-align: center;font-weight: 100;">USER NAME</th>
+<th style="width: 20%;text-align: center;font-weight: 100;">SCORE</th>
+                </tr>
+              </thead>
+
+                <tr>
+                    <td >{{count}}</td>
+                    <td>{{name}}</td>
+                    <td>{{score}}</td>
+                  </tr>
+              </table>
+              </section>
+            </div>
+        </div>    
+                
+                </div>
+        
+            </div>
+        </div>    
+        <nav class="navbar nav-expand-lg navbar-dark fixed-bottom" style="height: 7vh;display: flex; justify-content:center;background-color: rgba(0,0,0,0.6)">
+              <b style="color:azure; font-size: medium;">&copy PICT IEEE STUDENT BRANCH </b>
+          </nav>
+    </body>
+</html>

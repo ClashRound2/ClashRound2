@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static "css\bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/styleclash.css" %}">
+<link rel="stylesheet" href="{% static "FlipClock-master/compiled/flipclock.css" %}">
+<script src="{% static "cdn/a.js" %}"></script>
+<script src="{% static "cdn/b.js" %}"></script>
+<script src="{% static "cdn/c.js" %}"></script>
+<script src="{% static "FlipClock-master/compiled/flipclock.min.js" %}"></script>
+
+</head>
+<body style="overflow: hidden;background-image:url({% static "Images/p.jpg" %});">
+<nav class="navbar navbar-expand-lg  navbar-dark  fixed-top " style="height:7vh; background-color:rgba(0,0,0,0.6);">
+  <img src="{% static "Images/clash.png" %}" style="height: 7vh;width:9vh;">
+  <B class="ml-3" style="color: white;font-size: 1.5rem">QUESTION</B>
+  <B class="ml-2" style="color: white;font-size:1.5rem">HUB</B>
+  <ul class="nav navbar-nav d-flex justify-content-end" style="width:100%;">
+<div class="mt-2 mr-5 clock" style="width:30vh;height:6.5vh;"></div>
+
+    <div class="col-lg-1"></div>
+      <li class="nav-item ml-4">
+
+          </li>
+    <li class="nav-item ml-4">
+      <a class="nav-link my-2" href="{% url 'basic_app:leader' %}" target="_self" style="align-self:center;">
+        <button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Leaderboard</button>
+      </a>
+    </li>
+ <li class="nav-item ml-4 my-3">
+      <button class="btn btn-danger" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2)"
+        data-toggle="modal" data-target="#mymodal">Logout</button>
+    </li>
+    <li class="nav-item ml-4 mt-3">
+      <img src="{% static "Images/pisb1.png" %}" style="height:5vh;width:10vh">
+    </li>
+  </ul>
+</nav>
+<!--Table Header-->
+<section class="container-fluid">
+
+  
+    <div class="row px-2 mx-4" style="border: 2px solid black;border-radius: 10px;height: 8vh;box-shadow:inset 0 8px 10px 0 rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.19);">
+        
+        <section class="col-lg-1 d-flex justify-content-center px-2 py-2 " ><h5 style="font-weight:100;font-size: 1.5rem">SR NO</h5></section>
+<section class="col-lg-4 d-flex justify-content-center px-2 py-2">
+  <h5 style="font-weight:100;font-size: 1.5rem">QUESTION TITLE</h5>
+</section>
+<section class="col-lg-3 d-flex justify-content-center px-2 py-2 ">
+  <h5 style="font-weight: 100;font-size: 1.5rem">ACCURACY</h5>
+</section>
+<section class="col-lg-2 d-flex justify-content-center px-2 py-2 ">
+  <h5 style="font-weight: 100;font-size: 1.5rem">SUBMISSIONS</h5>
+</section>
+<section class="col-lg-2 d-flex justify-content-center px-2 py-2 ">
+  <h5 style="font-weight: 100;font-size: 1.5rem">ATTEMPT</h5>
+</section>
+             
+        </div>
+<!--Table Content-->
+   <!--Question 1-->
+        <div class="row px-5">
+           <section class="col-lg-1 mt-3 px-2 py-2"><div class="px-2 py-2 d-flex justify-content-center" style="border: 1px solid black;height:6vh;border-radius: 5px;">1.</div></section>
+           <section class="col-lg-4 mt-3 px-3 py-2 d-flex justify-content-center"><input type="text" style="width:70vh"></section>
+           <section class="col-lg-3 mt-3">
+              <div class="progress mt-1" style="height:30px;">
+                  <div class="progress-bar" style="width:{{ a0 }}%"></div>
+                  <div style="position: absolute;align-items: center;width: 100%;height: 100%;text-align: center">{{ a0 }}%</div>
+                  
+                </div>
+           </section>
+           <section class="col-lg-2 mt-3 px-4 py-2 d-flex justify-content-center">{{ subs0 }}</section>
+           <a href="{% url 'basic_app:questions' id=1%}">
+           <button class="btn mt-4 ml-4" style="background-color:rgba(255,255,255,0.4);width:20vh;height: 6vh;"><span>TRY IT</span></button>    </a>
+        </div>
+     <!--Question 2-->                            
+     <div class="row px-5">
+        <section class="col-lg-1 mt-2 px-2 py-2"><div class="px-2 py-2 d-flex justify-content-center" style="border: 1px solid black;height:6vh;border-radius: 5px;">2.</div></section>
+        <section class="col-lg-4 mt-2 px-3 py-2 d-flex justify-content-center"><input type="text" style="width:70vh"></section>
+        <section class="col-lg-3 mt-2">
+          <div class="progress mt-1" style="height:30px;">
+              <div class="progress-bar" style="width:{{ a1 }}%"></div>
+<div style="position: absolute;align-items: center;width: 100%;height: 100%;text-align: center">{{ a1 }}%</div>
+            </div>
+       </section>
+        <section class="col-lg-2 mt-2 px-3 py-2 d-flex justify-content-center">{{ subs1 }}</section>
+        <a href="{% url 'basic_app:questions' id=2%}">
+<button class="btn mt-4 ml-4" style="background-color:rgba(255,255,255,0.4);width:20vh;height: 6vh;">
+  <span>TRY IT</span>
+</button>
+</a>
+     </div>
+      <!--Question 3-->                                   
+       <div class="row px-5">
+        <section class="col-lg-1 mt-2 px-2 py-2"><div class="px-2 py-2 d-flex justify-content-center" style="border: 1px solid black;height:6vh;border-radius: 5px;">3.</div></section>
+        <section class="col-lg-4 mt-2 px-3 py-2 d-flex justify-content-center"><input type="text" style="width:70vh;"></section>
+        <section class="col-lg-3 mt-2 ">
+          <div class="progress mt-1" style="height:30px;">
+              <div class="progress-bar" style="width:{{ a2 }}%"></div>
+<div style="position: absolute;align-items: center;width: 100%;height: 100%;text-align: center">{{ a2 }}%</div>
+            </div>
+       </section>
+        <section class="col-lg-2 mt-2 px-3 py-2 d-flex justify-content-center">{{ subs2 }}</section>
+        <a href="{% url 'basic_app:questions' id=3%}">
+<button class="btn mt-4 ml-4" style="background-color:rgba(255,255,255,0.4);width:20vh;height: 6vh;">
+  <span>TRY IT</span>
+</button>
+</a>
+      </div>
+      <!--Question 4-->                                                  
+      <div class="row px-5">
+        <section class="col-lg-1 mt-2 px-2 py-2"><div class="px-2 py-2 d-flex justify-content-center" style="border: 1px solid black;height:6vh;border-radius: 5px;">4.</div></section>
+        <section class="col-lg-4 mt-2 px-3 py-2 d-flex justify-content-center"><input type="text" style="width:70vh;"></section>
+        <section class="col-lg-3 mt-2">
+          <div class="progress mt-1" style="height:30px;">
+              <div class="progress-bar" style="width:{{ a3 }}%"></div>
+<div style="position: absolute;align-items: center;width: 100%;height: 100%;text-align: center">{{ a3 }}%</div>
+            </div>
+       </section>
+        <section class="col-lg-2 mt-2 px-3 py-2 d-flex justify-content-center">{{ subs3 }}</section>
+        <a href="{% url 'basic_app:questions' id=4%}">
+         <button class="btn mt-4 ml-4" style="background-color:rgba(255,255,255,0.4);width:20vh;height: 6vh;"><span>TRY IT</span></button>    </a>
+      </div>
+        <!--Question 5-->                                                                 
+      <div class="row px-5">
+       <section class="col-lg-1 mt-2 px-2 py-2"><div class="px-2 py-2 d-flex justify-content-center" style="border: 1px solid black;height:6vh;border-radius: 5px;">5.</div></section>
+       <section class="col-lg-4 mt-2 px-3 py-2 d-flex justify-content-center"><input type="text" style="width:70vh;"></section>
+       <section class="col-lg-3 mt-2">
+        <div class="progress mt-1" style="height:30px;">
+            <div class="progress-bar " style="width:{{ a4 }}%"></div>
+<div style="position: absolute;align-items: center;width: 100%;height: 100%;text-align: center">{{ a4 }}%</div>
+          </div>
+     </section>
+       <section class="col-lg-2 mt-2 px-3 py-2 d-flex justify-content-center">{{ subs4 }}</section>
+       <a href="{% url 'basic_app:questions' id=5%}">
+<button class="btn mt-4 ml-4" style="background-color:rgba(255,255,255,0.4);width:20vh;height: 6vh;">
+  <span>TRY IT</span>
+</button>
+</a>
+
+      </div><input type="text">
+         <!--Question 6-->                                                                               
+      <div class="row px-5">
+        <section class="col-lg-1 mt-2 px-2 py-2"><div class="px-2 py-2 d-flex justify-content-center" style="border: 1px solid black;height:6vh;border-radius: 5px;">6.</div></section>
+        <section class="col-lg-4 mt-2 px-3 py-2 d-flex justify-content-center"><input type="text" style="width:70vh;"></section>
+        <section class="col-lg-3 mt-2">
+          <div class="progress mt-1" style="height:30px;">
+              <div class="progress-bar" style="width:{{ a5 }}%;"></div>
+<div style="position: absolute;align-items: center;width: 100%;height: 100%;text-align: center">{{ a5 }}%</div>
+            </div>
+       </section>
+        <section class="col-lg-2 mt-2 px-3 py-2 d-flex justify-content-center">{{ subs5 }}</section>
+        <a href="{% url 'basic_app:questions' id=6%}"
+<button class="btn mt-4 ml-4" style="background-color:rgba(255,255,255,0.4);width:20vh;height: 6vh;">
+  <span>TRY IT</span>
+</button>
+</a>
+
+      </div>
+    
+ 
+</section>
+
+ <!--Footer-->
+<div class="footer" style="padding-top: 10px;background-color: rgba(0,0,0,0.6);height: 7vh;">
+  <p>COPYRIGHT ©IEEE COMPUTER SOCIETY</p>
+</div>
+
+<script>
+  var clock;
+
+		$(document).ready(function() {
+			clock = $('.clock').FlipClock({{t}}, {
+		        clockFace: 'MinuteCounter',
+		        countdown: true,
+		        callbacks: {
+		        	stop: function() {
+		        		 window.location.href= "{% url 'user_logout' %}";
+		        	}
+		        }
+		    });
+		});
+
+</script>
+<div class="modal fade" id="mymodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">LOGOUT?</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        Do you want to submit?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+        <a href="{% url 'user_logout' %}">
+          <button type="button" class="btn btn-danger" >Logout</button></a>
+      </div>
+    </div>
+  </div>
+  </body>
+  </html>

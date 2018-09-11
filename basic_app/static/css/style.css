@@ -1,0 +1,59 @@
+.clock {
+    position: relative !important;
+    padding-top: -200px;
+    top: -1.5vh;
+    height: 7vh;
+    width: 60vw;
+    transform: scale(.6);
+    /*-webkit-transform: scale(.54); / Safari and Chrome /
+-o-transform: scale(.54); / Opera */
+    -moz-transform: scale(.55);
+}
+
+.timer {
+    position: relative;
+}
+.footer {
+    height: 7vh;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:black;
+    color: white;
+    text-align: center;
+}
+.body {
+
+    text-align: center;
+}
+.boxin{
+    width: 100%;
+    box-shadow: 3px 3px 3px 0.5px black;
+    background-color: rgba(0, 0, 0,0.6);
+    color: white;
+    border-radius:5px; 
+    font-size: 1.5rem;
+    font-weight: 100;
+
+
+}
+.boxin1 {
+    width: 100%;
+    border: 1px solid black;
+    
+    border-radius: 5px;
+    font-size: 4vh;
+}
+.leadin{
+    width: 100%;
+    border-radius:5px; 
+    font-size: 4vh;
+}
+.rank1{
+    background: url(rs1.png);
+    width: 100%;
+}
+.rank3{
+    background: url(rs3.png);
+    width: 100%; 
+}
