@@ -43,7 +43,6 @@ def questions(request, id=1):
             a = Questions.objects.all()
             user = UserProfileInfo.objects.get(user=request.user)
             user.question_id = int(id)
-            user.time = 10
             Q = a[user.question_id-1]
             q = Q.questions
 
