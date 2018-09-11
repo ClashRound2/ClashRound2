@@ -34,6 +34,7 @@ class UserProfileInfo(models.Model):
     email1 = models.EmailField()
     email2 = models.EmailField()
     option=models.CharField(max_length=3,default='c')
+    level=models.CharField(max_length=10)
 
     def __str__(self):
 

@@ -70,15 +70,16 @@ def questions(request, id=1):
             option = request.POST.get('lang')
             username = request.user.username
             user = UserProfileInfo.objects.get(user=request.user)
+            juniorSenior = user.level
             user.option=option
             subb.qid = user.question_id
             subb.save()
 
             testlist = ['fail', 'fail', 'fail', 'fail', 'fail']
 
-            juniorSenior = 'junior'  # temp
             myfile = open('{}/{}/{}.txt'.format(path3, str(user.question_id), str(user.question_id)))
             content = myfile.readlines()
+
             junior = [int(i.strip()) for i in content[0:5]]
             senior = [int(i.strip()) for i in content[5:10]]
 
@@ -112,7 +113,10 @@ def questions(request, id=1):
                     tcOut[i] = switch.get(data[i], 2)
                     if tcOut[i] == 0:  # if data[i] is 10 i.e correct answer
                         testlist[4 - i] = 'pass'
-                        user.score = user.score + junior[i]
+                        if juniorSenior == 'junior':
+                            user.score = user.score + junior[i]
+                        else:
+                            user.score = user.score + senior[i]
 
                 cerror = " "
 
@@ -170,8 +174,6 @@ def questions(request, id=1):
                     if i == 'pass':
                         for_count += 1
 
-                print(for_count)
-
                 if for_count == 5:
                     status = 'Completed'
                     Q._submissions += 1
@@ -181,7 +183,6 @@ def questions(request, id=1):
                     status = 'fail'
 
                 subb.testCaseScore = (for_count / 5) * 100
-                print(subb.testCaseScore)
                 subb.save()
 
                 dictt = {'s':user.score,'e':cerror,'d':user.question_id,'t':Timer(user.time),'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
@@ -331,9 +332,7 @@ def register(request):
                 phone2 = request.POST.get('phone1')
                 email1 = request.POST.get('email1')
                 email2 = request.POST.get('email2')
-
-                print(name1)
-                print(phone1)
+                level = request.POST.get('level')
 
                 a= User.objects.create_user( username=username, password=password)
 
@@ -347,6 +346,7 @@ def register(request):
                 b.phone2 = phone2
                 b.email1 = email1
                 b.email2 = email2
+                b.level = level
                 b.save()
 
                 return HttpResponseRedirect(reverse('basic_app:instructions'))
