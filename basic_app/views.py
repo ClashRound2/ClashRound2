@@ -57,7 +57,7 @@ def questions(request, id=1):
 
             user.save()
 
-            dict = {'q': q, 't': Timer(user.time), 's': user.score}
+            dict = {'q': q, 't': Timer(user.time), 's': user.total}
 
             return render(request, 'basic_app/Codingg.html', context=dict)
 
@@ -84,6 +84,8 @@ def questions(request, id=1):
             senior = [int(i.strip()) for i in content[5:10]]
 
             user.attempts += 1
+
+            print("USER ATTEMPTS ARE", user.attempts)
 
             fo = open('{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts, option), 'w')
             fo.write(some_text) # writes .c file
@@ -144,22 +146,28 @@ def questions(request, id=1):
                 elif int(id) == 2:
                     if user.quest2test <= user.score:
                         user.quest2test = user.score
-                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test) // 5
+                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 3:
                     if user.quest3test <= user.score:
                         user.quest3test = user.score
-                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test) // 5
+                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 4:
                     if user.quest4test <= user.score:
                         user.quest4test = user.score
-                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test) // 5
+                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 5:
                     if user.quest5test <= user.score:
                         user.quest5test = user.score
-                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test) // 5
+                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
+
+                elif int(id) == 6:
+                    if user.quest6test <= user.score:
+                        user.quest6test = user.score
+                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
+
 
                 user.save()
 
