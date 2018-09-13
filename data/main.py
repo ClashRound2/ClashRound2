@@ -17,7 +17,7 @@ def run_testcase(i, exec_file, username, qid, user_attempts, JS):
     in_file_fd = open(in_file, "r")
     user_out = '{}/{}/question{}/output{}{}.txt'.format(path, username, qid, user_attempts, i + 1)
     user_out_fd = os.open(user_out, os.O_RDWR | os.O_CREAT)  # user output after running
-    des_file = "{}/{}/{}.txt".format(des_dir, qid, str(int(qid) - 1))   # descrption file memory and time
+    des_file = "{}/{}/{}.txt".format(des_dir, qid, str(i))   # descrption file memory and time
     des_fd = open(des_file, "r")
     lines = des_fd.readlines()
     time = lines[0].strip()
