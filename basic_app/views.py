@@ -381,20 +381,16 @@ def register(request):
 def sub(request):
     user = UserProfileInfo.objects.get(user=request.user)
     a = submissions.objects.filter(user=request.user,qid=user.question_id)
+    b=a.reverse()
 
-    TS = []
-
-    for i in a:
-        TS.append(i.testCaseScore)
-
-    dict={'loop':TS,'timer':Timer(7200)}
+    dict={'loop':b,'t':timer()}
     return render(request,'basic_app/Submissionn.html',context=dict)
 
 
 def retry(request,id=1):
     if request.method=="GET":
         user = UserProfileInfo.objects.get(user=request.user)
-        a = submissions.objects.filter(user=request.user)
+        a = submissions.objects.filter(user=request.user,qid=user.question_id)
         array=[]
         idd=[]
 
@@ -406,12 +402,11 @@ def retry(request,id=1):
         f=idd[int(id)-1]
         q=var[int(f)-1]
         question=q.questions
-        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':Timer(7200)}
+        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':timer()}
 
         return render(request, 'basic_app/Codingg.html', context=dict)
     if request.method=="POST":
         return questions(request)
-
 
 def checkuser(request):
     response_data = {}
