@@ -383,7 +383,7 @@ def sub(request):
     a = submissions.objects.filter(user=request.user,qid=user.question_id)
     b=a.reverse()
 
-    dict={'loop':b,'t':timer()}
+    dict={'loop':b,'t':Timer(7200)}
     return render(request,'basic_app/Submissionn.html',context=dict)
 
 
@@ -402,11 +402,12 @@ def retry(request,id=1):
         f=idd[int(id)-1]
         q=var[int(f)-1]
         question=q.questions
-        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':timer()}
+        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':Timer(7200)}
 
         return render(request, 'basic_app/Codingg.html', context=dict)
     if request.method=="POST":
         return questions(request)
+
 
 def checkuser(request):
     response_data = {}
