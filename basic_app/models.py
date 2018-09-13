@@ -25,7 +25,6 @@ class UserProfileInfo(models.Model):
     total = models.IntegerField(default=0)
     attempts = models.IntegerField(default=0)
     question_id = models.IntegerField(default=0)
-    time = models.IntegerField(default=3600)
     date_time = models.DateTimeField(default=datetime.now())
     phone1 = models.CharField(max_length=10)
     phone2 = models.CharField(max_length=10)
@@ -49,5 +48,6 @@ class file(models.Model):
 class submissions(models.Model):
     sub=models.TextField()
     qid=models.IntegerField(default=0)
+    subtime = models.CharField(default='', max_length=10)
     testCaseScore = models.IntegerField(default=0)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
