@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+ .b:hover{ 
+     box-shadow: 3px 3px 3px black; 
+    }
+  .b{
+       outline: none; 
+       box-shadow: 3px 3px 3px black; } 
+  .b:active{ 
+        transform: translateY(4px);
+        outline: none; }
+    </style>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+<script src="{% static "cdn/a.js" %}"></script>
+<script src="{% static "cdn/b.js" %}"></script>
+<script src="{% static "cdn/c.js" %}"></script>
+  </head>
+
+
+  <body style="background-image:url({% static "Images/p.jpg" %});background-size:cover;background-repeat: no-repeat;"  >
+<form method="post">
+<nav class="navbar navbar-expand-lg navbar-dark  fixed-top a" style="height:7vh;background-color: rgba(0,0,0,0.6)">
+<img src="{% static "Images/clash.png" %}" style="height: 7vh;width:9vh;">
+<B class="ml-3" style="color: white;font-size:1.5rem">INSTRUCTION</B>
+<B class="ml-2" style="color: white;font-size:1.5rem">PAGE</B>
+        
+        <ul class="nav navbar-nav d-flex justify-content-end" style="width:100%;">
+                  
+
+      
+
+            <li class="nav-item ml-4 my-3">
+                <button class="btn btn-danger" type="button"  style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2)" data-toggle="modal"data-target="#mymodal">Logout</button>
+            </li>
+            <li class="nav-item ml-4 mt-3">
+                <img src="{% static "Images/pisb1.png" %}"style="height:6vh;width:10vh">
+            </li>
+        </ul>
+    </nav>
+   </div>
+   <div class="container-fluid" style="height: 86vh;margin-top: 9vh;">
+   <div class=" text-center my-5" style="border:2px solid black;border-radius:20px;height:80vh;margin-bottom:3vh;margin-top:0vh;margin-left:10vw;margin-right:10vw;width:80vw">    
+        
+        <div class="row justify-content-center align-self-center ">
+          <p style="color:black;font-size:1.5rem;font-weight: 100">INSTRUCTIONS</p>
+          </div>
+          <div class="row">
+          <textarea class="text" id="Instructions"disabled style="height:56vh;width:78vw;font-size:20px;opacity:0.2;background-color: aquamarine;border-radius: 20px;margin: auto;resize: none;">
+          </textarea>
+        </div>
+                    <div class="row justify-content-center align-self-center">
+                        <button type="submit" class="btn b mt-5" type="button" style="width:20vh;background-color:rgba(255,255,255,0.4);">PROCEED</button>
+                    </div>
+</div>
+
+            </div>
+    {% csrf_token %}
+</form>
+
+
+       <!-- <footer style="height: 7vh;text-align: center;background-color: black;font-size:12px;">©PICT IEEE STUDENT BRANCH</footer>-->
+<nav class="navbar navbar-expand-lg navbar-dark  fixed-bottom a" style="height:7vh;display:flex;justify-content:center;align-items:center;width:auto;background-color:rgba(0,0,0,0.6);">
+           
+                   <b style="color:white;"> ©PICT IEEE STUDENT BRANCH</b>
+               
+        </nav>
+<div class="modal fade" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">LOGOUT?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                Do you want to submit?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                <a href="{% url 'user_logout' %}">
+                <button type="button" class="btn btn-danger" >Logout</button>
+                </a>
+            </div>
+        </div>
+    </div>
+        </body>
+        
+</html>

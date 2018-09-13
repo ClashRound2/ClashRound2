@@ -1,0 +1,3 @@
+data/users_code/evmvejnve/question2/evmvejnve1.c:1:1: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ at end of input
+ dnfjfjfwjfwnfwjnfw
+ ^~~~~~~~~~~~~~~~~~

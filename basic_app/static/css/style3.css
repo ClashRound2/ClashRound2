@@ -1,0 +1,55 @@
+.clock {
+    position: relative !important;
+    padding-top: -200px;
+    top: -1.5vh;
+    height: 7vh;
+    width: 60vw;
+    transform: scale(.6);
+    /*-webkit-transform: scale(.54); / Safari and Chrome /
+-o-transform: scale(.54); / Opera */
+    -moz-transform: scale(.55);
+}
+
+.timer {
+    position: relative;
+}
+input[type="radio"]:hover{
+    cursor: pointer;
+}
+b:hover{
+    font-size:104%;
+    transition: font-size 1s;
+}
+.a{
+    box-shadow: 3px 3px 3px rgb(59, 55, 55) inset;
+}
+.i{
+    box-shadow: 1px 1px 10px rgb(59, 55, 55) inset;
+}
+.c{
+     box-shadow: 3px 3px 3px rgb(59, 55, 55);
+}
+.b:hover{
+    box-shadow: 3px 3px 3px black;
+}
+.b{
+    outline: none;
+    box-shadow: 3px 3px 3px black;
+}
+.b:active{
+     transform: translateY(4px);
+     outline: none;
+}
+.f{
+     box-shadow: 0px 0px 3px 3px rgb(59, 55, 55) inset;
+}
+.ques {
+    background-color: rgb(41, 39, 39);
+    color: white;
+    padding: 0.4em;
+    width: 8em;
+    border-radius: 7px 7px 0 0;
+    transform: perspective(9px) rotateX(1.6deg);
+    position: relative;
+    left: 0.5vh;
+}

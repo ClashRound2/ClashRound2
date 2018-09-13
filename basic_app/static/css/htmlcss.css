@@ -1,0 +1,175 @@
+.clock {
+    position: relative !important;
+    padding-top: -200px;
+    top: -1.5vh;
+    height: 7vh;
+    width: 60vw;
+    transform: scale(.6);
+    /*-webkit-transform: scale(.54); / Safari and Chrome /
+-o-transform: scale(.54); / Opera */
+    -moz-transform: scale(.55);
+}
+
+.timer {
+    position: relative;
+}
+.navbar navbar-expand-sm bg-dark navbar-dark{
+    position: fixed;
+}
+table.col-lg-9:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+body{
+
+    overflow: hidden;
+}
+.customdiv{
+    height:76vh;
+    width:100%;
+    margin: 20px;
+}
+.navbar{
+   
+    position: sticky;
+    height:7vh;
+}
+.FOOTER{
+    background-color:grey;
+    height:7vh;
+    position: fixed;
+    text-align:center;
+    width: 100%;
+    font-size: 25px;
+}
+.timer{
+   
+ margin-left: 17vw;
+ height:7vh;
+ width:10vw;
+}
+.username{
+  column-span: 4;
+}
+.head{
+    text-align: center;
+}
+.tableborder{
+    border: 3px solid black;
+    height: 78vh;
+}
+table{
+    border-collapse: collapse;
+}
+.container-fluid{
+    height: 86vh;
+    width: 85vw;
+}
+.d{
+    text-align:center;
+}
+.progressbar
+{
+background-color:teal;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  color: white;
+  width: 7vw;
+  text-align: center;
+}
+.leader{
+    margin-left: 30vw;
+    margin-top: 1vh;
+}
+.a{
+    width:10vw;
+    margin-left: 8vw;
+    border:1px solid black;
+    height:2.5vh;
+}
+.e{
+    text-align: center;
+    color: black;
+    height: 4.5vh;
+    border-radius: 2px; 
+    font-weight: bold;
+    background-color:rgba(255, 255, 255, 0.8)
+}
+.back
+{
+    max-height: 75vh;
+    overflow: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+tr{
+        border-bottom: 1px solid white;
+}
+.g{
+    background-color:rgba(0, 0, 0, 0.55);
+}
+.h{
+   background-color: rgba(0, 0, 0, 0.3);
+}
+.i{
+    border-top:1px solid white;
+}
+td{
+    text-align: center;
+    align-content: center;
+} 
+th{
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 100;
+  border:none;
+color:white;
+}
+.f{
+width:20vh;
+background-color:rgba(0,128,128, 0.3);
+}
+.btn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.mostly-customized-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: #aaa; /* or add it to the track */
+  }
+  /* Add a thumb */
+  .mostly-customized-scrollbar::-webkit-scrollbar-thumb {
+      background: #000; 
+  }
+  ::-webkit-scrollbar {
+    width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: red; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #b30000; 
+}
+.f:hover {
+    box-shadow: 3px 3px 3px black;
+}
+
+.f {
+    outline: none;
+    box-shadow: 3px 3px 3px black;
+}
+
+.f:active {
+    transform: translateY(4px);
+    outline: none;
+}

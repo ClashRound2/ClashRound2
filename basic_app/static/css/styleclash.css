@@ -1,0 +1,136 @@
+.clock {
+    position: relative !important;
+    padding-top: -200px;
+    top: -1.5vh;
+    height: 7vh;
+    width: 60vw;
+    transform: scale(.6);
+    /*-webkit-transform: scale(.54); / Safari and Chrome /
+-o-transform: scale(.54); / Opera */
+    -moz-transform: scale(.55);
+}
+
+.timer {
+    position: relative;
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:black;
+    color: white;
+    text-align: center;
+}
+body
+{
+   background-image:url("Images/p.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+.nav-link
+{
+    align-self:center;
+    
+}
+.btn
+{
+    
+    border-radius:5px;
+    box-shadow: 0 8px 10px 0 rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.19);
+    display: inline-block;
+  border-radius: 5px;
+    border: none;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+  
+
+}
+.btn span{
+    cursor: pointer;
+    font-size: 3vh;
+    position: relative;
+    transition: 0.5s;
+
+    
+  }
+  
+  .btn span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .btn:hover span {
+    padding-right: 25px;
+  }
+  
+  .btn:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+.container-fluid
+{
+    height:86vh;
+    margin-top:15vh;
+    color: black;
+}
+.col-lg-1
+{
+    
+
+    height:8vh;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+}
+.col-lg-4
+{
+    
+    border-radius: 5px;
+    height:8vh;
+}
+.col-lg-3
+{
+    
+    border-radius: 5px;
+    height:8vh;
+    padding:12px;
+}
+.col-lg-2
+{
+    border-radius: 5px;
+    height:8vh;
+}
+.progress-bar
+{
+    
+    height:30px;
+    background-color:teal;
+    color: black;
+    
+}
+input
+{
+    border:1px solid black;
+    border-radius: 5px;
+    height:6vh;
+    background: none;
+
+}
+.logo
+{
+    height:7vh;
+    width:20vh;
+}
+.progress
+{
+    background: transparent;
+    border: 1px solid black;
+}

@@ -1,0 +1,3 @@
+data/users_code/vkdvknv/question1/vkdvknv3.c:1:1: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ at end of input
+ archit
+ ^~~~~~

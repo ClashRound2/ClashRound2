@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=shrink, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" >
+    <link rel="stylesheet" href="{% static "css/tablestyle.css" %}">
+<script src="{% static "cdn/a.js" %}"></script>
+<script src="{% static "cdn/b.js" %}"></script>
+<script src="{% static "cdn/c.js" %}"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1 shrink-to-fit=no">
+<link rel="stylesheet" href="{% static "FlipClock-master/compiled/flipclock.css" %}">
+<script src="{% static "FlipClock-master/compiled/flipclock.min.js" %}"></script>
+<script>
+  var clock;
+
+  $(document).ready(function () {
+
+    clock = $('.clock').FlipClock({{t}},{
+      clockFace: 'MinuteCounter'
+    });
+    clock.setTime(1680);
+    clock.setCountdown(true);
+    clock.start();
+  });
+</script>
+</head>
+
+<body style="background-image:url({% static "Images/p.jpg" %}");background-size:cover;background-repeat: no-repeat;">
+<nav class="navbar navbar-expand-lg  navbar-dark  fixed-top " style="height:7vh; background-color:rgba(0,0,0,0.6);">
+  <img src="{% static "Images/clash.png" %}" style="height: 7vh;width:9vh;">
+
+<B class="ml-3" style="color: white;font-size:155%">LEADERBOARD</B>
+  <ul class="nav navbar-nav d-flex justify-content-end" style="width:100%;">
+<div class="mt-2 mr-1 clock" style="width:30vh;height:6.5vh;margin:auto;"></div>
+    <div class="col-lg-1"></div>
+    <li class="nav-item ml-4">
+      <a class="nav-link my-2" href="{% url 'basic_app:question_panel' %}" target="_self" style="align-self:center;">
+        <button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Question Hub</button>
+      </a>
+    </li>
+
+    <li class="nav-item ml-4 my-3">
+
+      <button class="btn btn-danger" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2)"
+        data-toggle="modal" data-target="#mymodal">Logout</button>
+    </li>
+    <li class="nav-item ml-4 mt-3">
+      <img src="{% static "Images/pisb1.png" %}" style="height:5vh;width:10vh">
+    </li>
+  </ul>
+</nav>
+    
+    <div class="container-fluid" style="margin-top: 9vh;" >
+      
+      <table class=" col-lg-9 table" style="margin-top: 6vh;border-radius: 4px;border:1px solid black">
+        <thead>
+          <tr class="r5">
+            <th class="col-lg-1">RANK</th>
+            <th class="col-lg-3">USERNAME</th>
+            <th class="col-lg-1 que">Q1</th>
+            <th class="col-lg-1 que">Q2</th>
+            <th class="col-lg-1 que">Q3</th>
+            <th class="col-lg-1 que">Q4</th>
+            <th class="col-lg-1 que">Q5</th>
+            <th class="col-lg-1 que">Q6</th>
+            <th class="col-lg-3">TOTAL</th>
+          </tr>
+        </thead></table>
+        <div class="back up"><table class=" col-lg-9 table table-striped-dark second">
+        <tbody>
+         <tbody>
+        {% for userprofile in list %}
+            <tr class="r1">
+                {% if  not forloop.counter|divisibleby:2 %}
+
+
+                <td class="col-lg-1" style="margin-left: 0vw;">{{ forloop.counter }}</td>
+
+                 <td class="col-lg-3" >{{ userprofile.user }}</td>
+
+
+
+                 <td class="col-lg-1 que">
+                     {{ userprofile.quest1test }}
+                     </td>
+                   <td class="col-lg-1 que">
+                       {{ userprofile.quest2test }}
+                     </td>
+                    <td class="col-lg-1 que">
+                        {{ userprofile.quest3test }}
+                        </td>
+                      <td    class="col-lg-1 que">
+                          {{ userprofile.quest4test }}
+                         </td>
+                        <td    class="col-lg-1 que">
+                            {{ userprofile.quest5test }}
+                            </td>
+                          <td    class="col-lg-1 que">
+                              {{ userprofile.quest6test }}
+
+                              </div>
+                            </div></td>
+                          <td class="col-lg-3"> <div class="progress" style="color: #000;position: relative;">
+                                <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:{{ userprofile.total}}%">
+                                </div>
+                                <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                                    {{ userprofile.total }}%</div>
+                         </div></td>
+
+               </tr>
+                    {% else %}
+
+
+               <tr class="r2">
+
+                  <td class="col-lg-1" style="margin-left: 0vw;">{{ forloop.counter }}</td>
+                   <td class="col-lg-3" style="text-align:center-left;">{{ userprofile.user }}</td>
+
+
+                   <td class="col-lg-1 que">
+                       {{ userprofile.quest1test}}
+                       </td>
+                     <td class="col-lg-1 que">
+                         {{ userprofile.quest2test }}
+                       </td>
+                      <td class="col-lg-1 que">
+                          {{ userprofile.quest3test }}
+                          </td>
+                        <td    class="col-lg-1 que">
+                            {{ userprofile.quest4test }}
+                           </td>
+                          <td    class="col-lg-1 que">
+                              {{ userprofile.quest5test }}
+                              </td>
+                            <td    class="col-lg-1 que">
+                                {{ userprofile.quest6test }}
+
+                                </div>
+                              </div></td>
+                            <td    class="col-lg-3">  <div class="progress" style="color: #000;position: relative;">
+                                <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:{{ userprofile.total }}%">
+                                </div>
+                                <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                                    {{ userprofile.total }}%</div>
+                         </div></td>
+
+                 </tr>
+                       {% endif %}
+                     {% endfor %}
+
+               <!--  <tr class="r1">
+                    <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                     <td class="col-lg-3" style="text-align:center-left;">credenz 2018</td>
+
+                     <td class="col-lg-1 que">
+                           40%
+                         </td>
+                       <td class="col-lg-1 que">
+                            60%
+                         </td>
+                        <td class="col-lg-1 que">
+                              80%
+                            </td>
+                          <td    class="col-lg-1 que">
+                                20%
+                             </td>
+                            <td    class="col-lg-1 que">
+                                  60%
+                                </td>
+                              <td    class="col-lg-1 que">
+                                    0%
+                                  </div>
+                                </div></td>
+                              <td class="col-lg-3"> <div class="progress" style="color: #000;position: relative;">
+                                    <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                    </div>
+                                    <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                    25%</div>
+                             </div></td>
+
+                   </tr>
+                   <tr class="r2">
+                      <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                       <td class="col-lg-3" style="text-align:center-left;">credenz 2018</td>
+
+                       <td class="col-lg-1 que">
+                             70%
+                           </td>
+                         <td class="col-lg-1 que">
+                              70%
+                           </td>
+                          <td class="col-lg-1 que">
+                                70%
+                              </td>
+                            <td    class="col-lg-1 que">
+                                  70%
+                               </td>
+                              <td    class="col-lg-1 que">
+                                    70%
+                                  </td>
+                                <td    class="col-lg-1 que">
+                                      70%
+                                    </div>
+                                  </div></td>
+                                <td    class="col-lg-3">  <div class="progress" style="color: #000;position: relative;">
+                                    <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                    </div>
+                                    <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                    25%</div>
+                             </div></td>
+
+                     </tr>
+                     <tr class="r1">
+                        <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                         <td class="col-lg-3" style="text-align:center-left;"></td>
+
+                         <td class="col-lg-1 que">
+                               40%
+                             </td>
+                           <td class="col-lg-1 que">
+                                60%
+                             </td>
+                            <td class="col-lg-1 que">
+                                  80%
+                                </td>
+                              <td    class="col-lg-1 que">
+                                    20%
+                                 </td>
+                                <td    class="col-lg-1 que">
+                                      60%
+                                    </td>
+                                  <td    class="col-lg-1 que">
+                                        0%
+                                      </div>
+                                    </div></td>
+                                  <td class="col-lg-3"> <div class="progress" style="color: #000;position: relative;">
+                                        <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                        </div>
+                                        <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                        25%</div>
+                                 </div></td>
+
+                       </tr>
+
+                       <tr class="r2">
+                          <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                           <td class="col-lg-3" style="text-align:center-left;">credenz 2018</td>
+
+                           <td class="col-lg-1 que">
+                                 70%
+                               </td>
+                             <td class="col-lg-1 que">
+                                  70%
+                               </td>
+                              <td class="col-lg-1 que">
+                                    70%
+                                  </td>
+                                <td    class="col-lg-1 que">
+                                      70%
+                                   </td>
+                                  <td    class="col-lg-1 que">
+                                        70%
+                                      </td>
+                                    <td    class="col-lg-1 que">
+                                          70%
+                                        </div>
+                                      </div></td>
+                                    <td    class="col-lg-3">  <div class="progress" style="color: #000;position: relative;">
+                                        <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                        </div>
+                                        <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                        25%</div>
+                                 </div></td>
+
+                         </tr>
+                         <tr class="r1">
+                            <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                             <td class="col-lg-3" style="text-align:center-left;">credenz 2018</td>
+
+                             <td class="col-lg-1 que">
+                                   40%
+                                 </td>
+                               <td class="col-lg-1 que">
+                                    60%
+                                 </td>
+                                <td class="col-lg-1 que">
+                                      80%
+                                    </td>
+                                  <td    class="col-lg-1 que">
+                                        20%
+                                     </td>
+                                    <td    class="col-lg-1 que">
+                                          60%
+                                        </td>
+                                      <td    class="col-lg-1 que">
+                                            0%
+                                          </div>
+                                        </div></td>
+                                      <td class="col-lg-3"> <div class="progress" style="color: #000;position: relative;">
+                                            <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                            </div>
+                                            <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                            25%</div>
+                                     </div></td>
+
+                           </tr>
+                           <tr class="r2">
+                              <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                               <td class="col-lg-3" style="text-align:center-left;">credenz 2018</td>
+
+                               <td class="col-lg-1 que">
+                                     70%
+                                   </td>
+                                 <td class="col-lg-1 que">
+                                      70%
+                                   </td>
+                                  <td class="col-lg-1 que">
+                                        70%
+                                      </td>
+                                    <td    class="col-lg-1 que">
+                                          70%
+                                       </td>
+                                      <td    class="col-lg-1 que">
+                                            70%
+                                          </td>
+                                        <td    class="col-lg-1 que">
+                                              70%
+                                            </div>
+                                          </div></td>
+                                        <td    class="col-lg-3">  <div class="progress" style="color: #000;position: relative;">
+                                            <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                            </div>
+                                            <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                            25%</div>
+                                     </div></td>
+
+                             </tr>
+                             <tr class="r1">
+                                <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                                 <td class="col-lg-3" style="text-align:center-left;">credenz 2018</td>
+
+                                 <td class="col-lg-1 que">
+                                       40%
+                                     </td>
+                                   <td class="col-lg-1 que">
+                                        60%
+                                     </td>
+                                    <td class="col-lg-1 que">
+                                          80%
+                                        </td>
+                                      <td    class="col-lg-1 que">
+                                            20%
+                                         </td>
+                                        <td    class="col-lg-1 que">
+                                              60%
+                                            </td>
+                                          <td    class="col-lg-1 que">
+                                                0%
+                                              </div>
+                                            </div></td>
+                                          <td class="col-lg-3"> <div class="progress" style="color: #000;position: relative;">
+                                                <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                                </div>
+                                                <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                                25%</div>
+                                         </div></td>
+
+                               </tr>
+                               <tr class="r2">
+                                  <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                                   <td class="col-lg-3" style="text-align:center-left;">credenz 2018</td>
+
+                                   <td class="col-lg-1 que">
+                                         70%
+                                       </td>
+                                     <td class="col-lg-1 que">
+                                          70%
+                                       </td>
+                                      <td class="col-lg-1 que">
+                                            70%
+                                          </td>
+                                        <td    class="col-lg-1 que">
+                                              70%
+                                           </td>
+                                          <td    class="col-lg-1 que">
+                                                70%
+                                              </td>
+                                            <td    class="col-lg-1 que">
+                                                  70%
+                                                </div>
+                                              </div></td>
+                                            <td    class="col-lg-3">  <div class="progress" style="color: #000;position: relative;">
+                                                <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                                </div>
+                                                <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                                25%</div>
+                                         </div></td>
+
+                                 </tr>
+                                 <tr class="r1">
+                                    <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                                     <td class="col-lg-3" style="text-align:center-left;">credenz 2018</td>
+
+                                     <td class="col-lg-1 que">
+                                           40%
+                                         </td>
+                                       <td class="col-lg-1 que">
+                                            60%
+                                         </td>
+                                        <td class="col-lg-1 que">
+                                              80%
+                                            </td>
+                                          <td    class="col-lg-1 que">
+                                                20%
+                                             </td>
+                                            <td    class="col-lg-1 que">
+                                                  60%
+                                                </td>
+                                              <td    class="col-lg-1 que">
+                                                    0%
+                                                  </div>
+                                                </div></td>
+                                              <td class="col-lg-3"> <div class="progress" style="color: #000;position: relative;">
+                                                    <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                                    </div>
+                                                    <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                                    25%</div>
+                                             </div></td>
+
+                                   </tr>
+                                   <tr class="r2">
+                                      <td class="col-lg-1" style="margin-left: 0vw;">1</td>
+                                       <td class="col-lg-3" style="text-align:center-left;">credenz 2018</td>
+
+                                       <td class="col-lg-1 que">
+                                             70%
+                                           </td>
+                                         <td class="col-lg-1 que">
+                                              70%
+                                           </td>
+                                          <td class="col-lg-1 que">
+                                                70%
+                                              </td>
+                                            <td    class="col-lg-1 que">
+                                                  70%
+                                               </td>
+                                              <td    class="col-lg-1 que">
+                                                    70%
+                                                  </td>
+                                                <td    class="col-lg-1 que">
+                                                      70%
+                                                    </div>
+                                                  </div></td>
+                                                <td    class="col-lg-3">  <div class="progress" style="color: #000;position: relative;">
+                                                    <div class="progress-bar" role="progressbar"aria-valuenow="100" aria-valuemin="0" aria-valuemax="1000" style="width:25%">
+                                                    </div>
+                                                    <div class="pt-1"  style="align-items:center;width:100%;height:100%;position: absolute;text-align: center;">
+                                    25%</div>
+                                             </div></td>
+
+                                     </tr>
+                                     -->
+
+        
+        </tbody>
+      </table>
+
+    </div>
+    </div>
+<nav class="navbar navbar-expand-lg navbar-dark" style="height:7vh;display: flex;justify-content: center;align-items:center; background-color:rgba(0,0,0,0.6);">
+  <b style="color:white;font-weight: bold">© PICT IEEE STUDENT BRANCH</b>
+</nav>
+<script>
+  var clock;
+
+		 var clock;
+
+		$(document).ready(function() {
+
+			clock = $('.clock').FlipClock({{t}}, {
+		        clockFace: 'HourlyCounter',
+		        countdown: true,
+		        callbacks: {
+		        	stop: function() {
+		        		 window.location.href= "{% url 'user_logout' %}";
+		        	}
+		        }
+		    });
+		});
+
+</script>
+<div class="modal fade" id="mymodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">LOGOUT?</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        Do you want to submit?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+          <a href="{% url 'user_logout' %}">
+        <button type="button" class="btn btn-danger" >Logout</button>
+          </a>
+      </div>
+    </div>
+  </div>
+    </body>
+    </html>

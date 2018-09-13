@@ -1,0 +1,7 @@
+data/users_code/vkdvknv/question2/vkdvknv5.c:1:1: error: unknown type name ‘lund’; did you mean ‘long’?
+ lund ha archit
+ ^~~~
+ long
+data/users_code/vkdvknv/question2/vkdvknv5.c:1:9: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘archit’
+ lund ha archit
+         ^~~~~~
