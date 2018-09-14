@@ -25,6 +25,7 @@ class Static:
 
 def Timer(_time):
     if not Static.Flag:
+        print("In Static Timer")
         nowSub = datetime.datetime.now()
         Static.subSec = nowSub.minute * 60 + nowSub.second
 
@@ -252,9 +253,7 @@ def questions(request, id=1):
 
 
 def question_panel(request):
-    print("HELLLLLL")
     if request.user.is_authenticated:
-        print("STATIC FLAG VALUE", Static.Flag)
         all_user = UserProfileInfo.objects.all()
         accuracy_count = [0, 0, 0, 0, 0, 0]
         percentage_accuracy = [0, 0, 0, 0, 0, 0]
@@ -313,10 +312,11 @@ def leader(request):
 
 
 def instructions(request):
+    if Static.Flag:
+        print("In INSTR")
+        return question_panel(request)
+
     if request.user.is_authenticated:
-        if Static.Flag:
-            print("In INSTR")
-            return question_panel(request)
         if request.method=="POST":
             return HttpResponseRedirect(reverse('basic_app:question_panel'))
         return render(request,'basic_app/instruction.html')
@@ -341,41 +341,41 @@ def user_logout(request):
 
 
 def register(request):
-        try:
-            if request.method == 'POST':
-                Static.Flag1 = True
-                username = request.POST.get('name')
-                password= request.POST.get('password')
-                name1 = request.POST.get('name1')
-                name2 = request.POST.get('name2')
-                phone1 = request.POST.get('phone1')
-                phone2 = request.POST.get('phone1')
-                email1 = request.POST.get('email1')
-                email2 = request.POST.get('email2')
-                level = request.POST.get('level')
+    if Static.Flag1:
+        return instructions(request)
+    try:
+        if request.method == 'POST':
+            Static.Flag1 = True
+            username = request.POST.get('name')
+            password= request.POST.get('password')
+            name1 = request.POST.get('name1')
+            name2 = request.POST.get('name2')
+            phone1 = request.POST.get('phone1')
+            phone2 = request.POST.get('phone1')
+            email1 = request.POST.get('email1')
+            email2 = request.POST.get('email2')
+            level = request.POST.get('level')
 
-                a= User.objects.create_user( username=username, password=password)
+            a= User.objects.create_user( username=username, password=password)
 
-                a.save()
-                login(request,a)
-                b=UserProfileInfo()
-                b.user=a
-                b.name1= name1
-                b.name2= name2
-                b.phone1 = phone1
-                b.phone2 = phone2
-                b.email1 = email1
-                b.email2 = email2
-                b.level = level
-                b.save()
+            a.save()
+            login(request,a)
+            b=UserProfileInfo()
+            b.user=a
+            b.name1= name1
+            b.name2= name2
+            b.phone1 = phone1
+            b.phone2 = phone2
+            b.email1 = email1
+            b.email2 = email2
+            b.level = level
+            b.save()
 
-                return HttpResponseRedirect(reverse('basic_app:instructions'))
+            return HttpResponseRedirect(reverse('basic_app:instructions'))
 
-        except IntegrityError:
-            return HttpResponse("you have already been registered.")
-        if Static.Flag1:
-            return instructions(request)
-        return render(request,'basic_app/Loginn.html')
+    except IntegrityError:
+        return HttpResponse("you have already been registered.")
+    return render(request,'basic_app/Loginn.html')
 
 
 def sub(request):
