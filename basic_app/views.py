@@ -18,12 +18,13 @@ path2 = 'data/standard'
 path3 = 'data/standard/testcaseScore'
 
 
-def start_Timer():
+def start_Timer(request):
 
     now = datetime.datetime.now()
     time=now.second+now.minute*60+now.hour*60*60
     global endtime
     endtime=time+7200
+    return HttpResponse("good to go")
 
 def timer():
     now = datetime.datetime.now()
@@ -53,7 +54,7 @@ def questions(request, id=1):
 
             user.save()
 
-            dict = {'q': q, 't': timer(), 's': user.total}
+            dict = {'q': q, 't': timer(), 's': user.totalscore}
 
             return render(request, 'basic_app/Codingg.html', context=dict)
 
@@ -133,6 +134,8 @@ def questions(request, id=1):
 
                     with open(error, 'r') as e:
                         cerror = e.read()
+
+
                         cerror = cerror.split('/', 4)[4]
 
                 if tcOut[0] == 2 or tcOut[1] == 2 or tcOut[2] == 2 or tcOut[3] == 2 or tcOut[4] == 2:
@@ -147,31 +150,37 @@ def questions(request, id=1):
                 if int(id) == 1:
                     if user.quest1test <= user.score:
                         user.quest1test = user.score
-                    user.total = (user.quest1test+user.quest2test+user.quest3test+user.quest4test+user.quest5test)//5
+                        user.totalscore=user.quest1test+ user.quest2test+user.quest3test+user.quest4test+user.quest5test+user.quest6test
+                    user.total = (user.quest1test+user.quest2test+user.quest3test+user.quest4test+user.quest5test+user.quest6test)//6
 
                 elif int(id) == 2:
                     if user.quest2test <= user.score:
                         user.quest2test = user.score
+                        user.totalscore=user.quest1test+ user.quest2test+user.quest3test+user.quest4test+user.quest5test+user.quest6test
                     user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 3:
                     if user.quest3test <= user.score:
                         user.quest3test = user.score
+                        user.totalscore=user.quest1test+ user.quest2test+user.quest3test+user.quest4test+user.quest5test+user.quest6test
                     user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 4:
                     if user.quest4test <= user.score:
                         user.quest4test = user.score
+                        user.totalscore=user.quest1test+ user.quest2test+user.quest3test+user.quest4test+user.quest5test+user.quest6test
                     user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 5:
                     if user.quest5test <= user.score:
                         user.quest5test = user.score
+                        user.totalscore=user.quest1test+ user.quest2test+user.quest3test+user.quest4test+user.quest5test+user.quest6test
                     user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 6:
                     if user.quest6test <= user.score:
                         user.quest6test = user.score
+                        user.totalscore=user.quest1test+ user.quest2test+user.quest3test+user.quest4test+user.quest5test+user.quest6test
                     user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
 
@@ -203,30 +212,7 @@ def questions(request, id=1):
 
             return render(request, 'basic_app/Test Casee.html',context=dictt)
 
-        elif 'load' in request.POST:
-            username = request.user.username
-            user = UserProfileInfo.objects.get(user=request.user)
 
-            try:
-                option = user.option
-                z = open('{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts,
-                                                           option), 'r')
-                read = z.read()
-
-                user.save()
-                a = Questions.objects.all()
-                Q = a[user.question_id - 1]
-                q = Q.questions
-
-                dict = {'q': q, 's': user.score, 'load': read,'t':timer()}
-                return render(request, 'basic_app/Codingg.html', context=dict)
-            except FileNotFoundError:
-                a = Questions.objects.all()
-                Q = a[user.question_id - 1]
-                q = Q.questions
-                dict = {'q': q}
-
-                return render(request, 'basic_app/Codingg.html', context=dict)
 
         elif 'browse' in request.POST:
             form = DocumentForm(request.POST, request.FILES)
@@ -316,7 +302,6 @@ def leader(request):
 def instructions(request):
     if request.user.is_authenticated:
         if request.method=="POST":
-            start_Timer()
             return HttpResponseRedirect(reverse('basic_app:question_panel'))
         return render(request,'basic_app/instruction.html')
     else:
@@ -333,7 +318,7 @@ def user_logout(request):
         if str(i.user) == str(request.user.username):
             break
 
-    dict = {'count': counter, 'name': request.user.username, 'score': user.score}
+    dict = {'count': counter, 'name': request.user.username, 'score': user.totalscore}
 
     logout(request)
     return render(request, 'basic_app/Result.htm', context=dict)
@@ -401,7 +386,7 @@ def retry(request,id=1):
         f=idd[int(id)-1]
         q=var[int(f)-1]
         question=q.questions
-        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':timer()}
+        dict = {'sub': array[int(id)-1], 'question':question,'s':user.totalscore,'t':timer()}
 
         return render(request, 'basic_app/Codingg.html', context=dict)
     if request.method=="POST":
@@ -416,5 +401,19 @@ def checkuser(request):
         response_data["is_success"] = True
     else:
         response_data["is_success"] = False
+    return JsonResponse(response_data)
+def loadbuff(request):
+    response_data = {}
+    username = request.user.username
+    user = UserProfileInfo.objects.get(user=request.user)
+
+    file = '{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts,
+                                                           user.option)
+    f = open(file, "r")
+    text = f.read()
+
+    if not text:
+        data = ""
+    response_data["text"] = text
     return JsonResponse(response_data)
 

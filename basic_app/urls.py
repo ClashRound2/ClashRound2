@@ -13,5 +13,6 @@ urlpatterns=[
     url(r'retry/(?P<id>\d+)/$',views.retry,name='retry'),
     url(r'submissions/$',views.sub,name='sub'),
     url(r'^checkuse',views.checkuser,name="checkuser"),
-    url(r'/', views.question_panel)
+    url(r'/', views.question_panel),
+    url(r'^loadbuff',views.loadbuff,name='loadbuff'),
 ]

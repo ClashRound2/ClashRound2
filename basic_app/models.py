@@ -22,6 +22,7 @@ class UserProfileInfo(models.Model):
     quest4test = models.IntegerField(default=0)
     quest5test = models.IntegerField(default=0)
     quest6test = models.IntegerField(default=0)
+    totalscore=models.IntegerField(default=0)
     total = models.IntegerField(default=0)
     attempts = models.IntegerField(default=0)
     question_id = models.IntegerField(default=0)
