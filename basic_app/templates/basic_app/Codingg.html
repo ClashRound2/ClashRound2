@@ -157,7 +157,7 @@ console.log()
                         <div class="row mt-2" style="display: flex;align-items: center">
 <button class="btn b my-4" type="button" onclick="check()" style="width:20vh;background-color:rgba(255,255,255,0.4);">LOAD BUFFER</button>
 <div class="custom-file mt-1 col-lg-7 ml-3">
-<input type="file" class="custom-file-input" id="customFile" name="filename">
+<input type="file" class="custom-file-input" id="fileToLoad" name="filename" onchange="loadFileAsText()">
     <label class="custom-file-label" for="customFile"  style=" background-color:rgba(0,0,0,0.6);">Choose file</label>
 </div>
 </div>
@@ -242,6 +242,34 @@ console.log("Loadbuffer")
 
         }
     });
+}
+
+
+
+
+
+
+
+
+
+
+function loadFileAsText(){
+  var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+  var fileReader = new FileReader();
+  fileReader.onload = function(fileLoadedEvent){
+  var editor = ace.edit("editor");
+
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/c_cpp");
+
+      var textFromFileLoaded = fileLoadedEvent.target.result;
+       editor.session.setValue(textFromFileLoaded);
+
+  };
+  fileReader.readAsText(fileToLoad, "UTF-8");
+
+
 }
 
     </script>
