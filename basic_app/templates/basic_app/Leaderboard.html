@@ -86,23 +86,23 @@
 
 
                  <td class="col-lg-1 que">
-                     {{ userprofile.quest1test }}%
+                     {{ userprofile.quest1test }}
                      </td>
                    <td class="col-lg-1 que">
-                       {{ userprofile.quest2test }}%
+                       {{ userprofile.quest2test }}
                      </td>
                     <td class="col-lg-1 que">
-                        {{ userprofile.quest3test }}%
+                        {{ userprofile.quest3test }}
                         </td>
                       <td    class="col-lg-1 que">
-                          {{ userprofile.quest4test }}%
+                          {{ userprofile.quest4test }}
                          </td>
                         <td    class="col-lg-1 que">
-                            {{ userprofile.quest5test }}%
+                            {{ userprofile.quest5test }}
                             </td>
                           <td    class="col-lg-1 que">
-                            {{ userprofile.quest6test }}%
-                          </td>
+                              {{ userprofile.quest6test }}
+
                               </div>
                             </div></td>
                           <td class="col-lg-3"> <div class="progress" style="color: #000;position: relative;">
@@ -123,22 +123,23 @@
 
 
                    <td class="col-lg-1 que">
-                       {{ userprofile.quest1test}}%
+                       {{ userprofile.quest1test}}
                        </td>
                      <td class="col-lg-1 que">
-                         {{ userprofile.quest2test }}%
+                         {{ userprofile.quest2test }}
                        </td>
                       <td class="col-lg-1 que">
-                          {{ userprofile.quest3test }}%
+                          {{ userprofile.quest3test }}
                           </td>
                         <td    class="col-lg-1 que">
-                            {{ userprofile.quest4test }}%
+                            {{ userprofile.quest4test }}
                            </td>
                           <td    class="col-lg-1 que">
-                              {{ userprofile.quest5test }}%
+                              {{ userprofile.quest5test }}
                               </td>
                             <td    class="col-lg-1 que">
-                                0%
+                                {{ userprofile.quest6test }}
+
                                 </div>
                               </div></td>
                             <td    class="col-lg-3">  <div class="progress" style="color: #000;position: relative;">
@@ -477,7 +478,10 @@
 <script>
   var clock;
 
+		 var clock;
+
 		$(document).ready(function() {
+
 			clock = $('.clock').FlipClock({{t}}, {
 		        clockFace: 'HourlyCounter',
 		        countdown: true,

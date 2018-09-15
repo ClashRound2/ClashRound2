@@ -19,6 +19,7 @@ from basic_app import views
 
 urlpatterns = [
     url(r'^$',views.register,name='register'),
+    url(r'^timer/', views.start_Timer),
     url(r'^admin/', admin.site.urls),
     url(r'^logout/$', views.user_logout, name='user_logout'),
     url(r'^basic_app/', include('basic_app.urls')),

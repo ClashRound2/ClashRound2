@@ -11,6 +11,7 @@ import os
 
 from .forms import DocumentForm
 
+endtime = 0
 
 path = 'data/users_code'
 path2 = 'data/standard'
@@ -23,19 +24,20 @@ class Static:
     subSec = 0
 
 
-def Timer(_time):
-    if not Static.Flag:
-        print("In Static Timer")
-        nowSub = datetime.datetime.now()
-        Static.subSec = nowSub.minute * 60 + nowSub.second
+def start_Timer(request):
 
     now = datetime.datetime.now()
-    minutes = now.minute * 60
-    seconds = now.second
-    count = minutes + seconds
-    total_count = _time - count + Static.subSec
+    time=now.second+now.minute*60+now.hour*60*60
+    global endtime
+    endtime=time+7200
+    return HttpResponse("good to go")
 
-    return total_count
+
+def timer():
+    now = datetime.datetime.now()
+    time = now.second + now.minute * 60 + now.hour * 60 * 60
+    global endtime
+    return endtime-time
 
 
 def questions(request, id=1):
@@ -58,7 +60,7 @@ def questions(request, id=1):
 
             user.save()
 
-            dict = {'q': q, 't': Timer(7200), 's': user.total}
+            dict = {'q': q, 't': timer(), 's': user.total}
 
             return render(request, 'basic_app/Codingg.html', context=dict)
 
@@ -67,7 +69,7 @@ def questions(request, id=1):
             some_text = request.POST.get('editor')
             subb = submissions(user=request.user)
             subb.sub = some_text
-            time = Timer(7200)
+            time = timer()
             hour = time // (60 * 60)
             a = time % (60 * 60)
             if a < 60:
@@ -203,7 +205,7 @@ def questions(request, id=1):
                 subb.testCaseScore = (for_count / 5) * 100
                 subb.save()
 
-                dictt = {'s':user.total,'e':cerror,'d':user.question_id,'t':Timer(7200),'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
+                dictt = {'s':user.total,'e':cerror,'d':user.question_id,'t':timer(),'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
 
             return render(request, 'basic_app/Test Casee.html',context=dictt)
 
@@ -228,7 +230,7 @@ def questions(request, id=1):
                 a = Questions.objects.all()
                 Q = a[user.question_id - 1]
                 q = Q.questions
-                dict = {'q': q, 't':Timer(7200), 's': user.total}
+                dict = {'q': q, 't':timer(), 's': user.total}
 
                 return render(request, 'basic_app/Codingg.html', context=dict)
 
@@ -287,15 +289,21 @@ def question_panel(request):
             i.save()
 
         subs = []
+        qtitle = []
 
         for i in range(0,6):
             subs.append(all_question[i]._submissions)
+            qtitle.append(all_question[i].questiontitle)
 
-        dict={'t':Timer(7200), 'a0': percentage_accuracy[0], 'a1': percentage_accuracy[1], 'a2': percentage_accuracy[2], 'a3': percentage_accuracy[3], 'a4': percentage_accuracy[4], 'a5': percentage_accuracy[5], 'subs0': subs[0], 'subs1': subs[1], 'subs2': subs[2], 'subs3': subs[3], 'subs4': subs[4], 'subs5': subs[5]}
+        dict = {'t': timer(), 'a0': percentage_accuracy[0], 'a1': percentage_accuracy[1], 'a2': percentage_accuracy[2],
+                'a3': percentage_accuracy[3], 'a4': percentage_accuracy[4], 'a5': percentage_accuracy[5],
+                'subs0': subs[0], 'subs1': subs[1], 'subs2': subs[2], 'subs3': subs[3], 'subs4': subs[4],
+                'subs5': subs[5], 'qtitle0': qtitle[0], 'qtitle1': qtitle[1], 'qtitle2': qtitle[2],
+                'qtitle3': qtitle[3], 'qtitle4': qtitle[4], 'qtitle5': qtitle[5]}
 
         Static.Flag = True
 
-        return render(request,'basic_app/Question Hub.html', context=dict)
+        return render(request,'basic_app/Question Hubb.html', context=dict)
     else:
         return HttpResponse("This is wrong boi")
 
@@ -304,7 +312,7 @@ def leader(request):
     if request.user.is_authenticated:
         a=UserProfileInfo.objects.order_by("total")
         b=a.reverse()
-        dict={'list':b,'t': Timer(7200)}
+        dict={'list':b,'t': timer()}
         return render(request,'basic_app/Leaderboard.html',context=dict)
 
     else:
@@ -312,11 +320,9 @@ def leader(request):
 
 
 def instructions(request):
-    if Static.Flag:
-        print("In INSTR")
-        return question_panel(request)
-
     if request.user.is_authenticated:
+        if Static.Flag:
+            return question_panel(request)
         if request.method=="POST":
             return HttpResponseRedirect(reverse('basic_app:question_panel'))
         return render(request,'basic_app/instruction.html')
@@ -380,10 +386,10 @@ def register(request):
 
 def sub(request):
     user = UserProfileInfo.objects.get(user=request.user)
-    a = submissions.objects.filter(user=request.user,qid=user.question_id)
+    a = submissions.objects.filter(user=request   .user,qid=user.question_id)
     b=a.reverse()
 
-    dict={'loop':b,'t':Timer(7200)}
+    dict={'loop':b,'t':timer()}
     return render(request,'basic_app/Submissionn.html',context=dict)
 
 
@@ -402,7 +408,7 @@ def retry(request,id=1):
         f=idd[int(id)-1]
         q=var[int(f)-1]
         question=q.questions
-        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':Timer(7200)}
+        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':timer()}
 
         return render(request, 'basic_app/Codingg.html', context=dict)
     if request.method=="POST":
@@ -418,4 +424,21 @@ def checkuser(request):
     else:
         response_data["is_success"] = False
     return JsonResponse(response_data)
+
+
+def loadbuff(request):
+    response_data = {}
+    username = request.user.username
+    user = UserProfileInfo.objects.get(user=request.user)
+
+    file = '{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts,
+                                                           user.option)
+    f = open(file, "r")
+    text = f.read()
+
+    if not text:
+        data = ""
+    response_data["text"] = text
+    return JsonResponse(response_data)
+
 

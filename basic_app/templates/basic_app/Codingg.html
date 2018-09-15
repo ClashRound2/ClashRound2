@@ -143,7 +143,7 @@ console.log()
 <div class="col-lg-6" style="border:1px solid rgb(41, 39, 39);height: 58vh;resize:none;color:white;background-color:rgba(0,0,0,0.6);border-top-right-radius:10px;border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
 <div id="editor" style=" background-color:rgba(0,0,0,0.4);border-top-right-radius:10px;border-bottom-right-radius:10px;border-bottom-left-radius:10px;"></div>
 <div>
-  <textarea name="editor" style="display: none;">
+  <textarea name="editor" id='editortext' style="display: none;">
   {{sub}}
    {{load}}
   </textarea>
@@ -155,9 +155,9 @@ console.log()
                 <div class="row">
                     <div class="col-lg-5">
                         <div class="row mt-2" style="display: flex;align-items: center">
-<button class="btn b my-4" type="submit" name="load" style="width:20vh;background-color:rgba(255,255,255,0.4);">LOAD BUFFER</button>
+<button class="btn b my-4" type="button" onclick="check()" style="width:20vh;background-color:rgba(255,255,255,0.4);">LOAD BUFFER</button>
 <div class="custom-file mt-1 col-lg-7 ml-3">
-<input type="file" class="custom-file-input" id="customFile" name="filename">
+<input type="file" class="custom-file-input" id="fileToLoad" name="filename" onchange="loadFileAsText()">
     <label class="custom-file-label" for="customFile"  style=" background-color:rgba(0,0,0,0.6);">Choose file</label>
 </div>
 </div>
@@ -166,13 +166,13 @@ console.log()
                     <div class="col-lg-6">
                         <div class="row mt-2" style="display: flex;align-items: center">
                             <div class="my-2 ml-5 p" style="border: 1px solid black;height: 9vh; display:flex; align-items:center;justify-content:center;border-radius: 4px;width: 5vh">
-                                <input type="radio" name="lang" value="c" checked style="transform:scale(1.5)">
+                                <input type="radio" name="lang" value="c"  style="transform:scale(1.5)">
                             </div>
 <div class="my-2 i" style="border:1px solid black;display:flex; align-items: center;justify-content: center;border-radius: 4px;height: 9vh;width: 12vh;">
 <font style="font-size: 1.9rem;font-weight:100;">C</font>
 </div>
                             <div class="ml-2 my-2 p" style="border: 1px solid black;height: 9vh; display:flex; align-items:center;justify-content:center;border-radius: 4px;width: 5vh">
-                                <input type="radio" name="lang" value="cpp" style="transform:scale(1.5)">
+                                <input type="radio" name="lang" checked value="cpp" style="transform:scale(1.5)">
                             </div>
 <div class="my-2 i"style="border:1px solid black;display:flex; align-items: center;justify-content: center;border-radius: 4px;height: 9vh;width: 12vh;">
                                 <font style="font-size: 1.9rem;font-weight:100;">C++</font>
@@ -221,6 +221,56 @@ console.log()
 		        }
 		    });
 		});
+
+
+
+		function check() {
+console.log("Loadbuffer")
+   $.ajax({
+        url : '{% url 'basic_app:loadbuff' %}',
+        data : {'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()},
+        method: "POST",
+        dataType : "json",
+        success : function (data) {
+         var editor = ace.edit("editor");
+
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/c_cpp");
+            console.log(data["text"]);
+			var text=data["text"];
+           editor.session.setValue(text);
+
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+function loadFileAsText(){
+  var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+  var fileReader = new FileReader();
+  fileReader.onload = function(fileLoadedEvent){
+  var editor = ace.edit("editor");
+
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/c_cpp");
+
+      var textFromFileLoaded = fileLoadedEvent.target.result;
+       editor.session.setValue(textFromFileLoaded);
+
+  };
+  fileReader.readAsText(fileToLoad, "UTF-8");
+
+
+}
 
     </script>
     {% csrf_token %}
