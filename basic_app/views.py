@@ -60,7 +60,7 @@ def questions(request, id=1):
 
             user.save()
 
-            dict = {'q': q, 't': timer(), 's': user.total}
+            dict = {'q': q, 't': timer(), 's': user.totalScore}
 
             return render(request, 'basic_app/Codingg.html', context=dict)
 
@@ -154,32 +154,29 @@ def questions(request, id=1):
                 if int(id) == 1:
                     if user.quest1test <= user.score:
                         user.quest1test = user.score
-                    user.total = (user.quest1test+user.quest2test+user.quest3test+user.quest4test+user.quest5test)//5
 
                 elif int(id) == 2:
                     if user.quest2test <= user.score:
                         user.quest2test = user.score
-                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 3:
                     if user.quest3test <= user.score:
                         user.quest3test = user.score
-                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 4:
                     if user.quest4test <= user.score:
                         user.quest4test = user.score
-                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 5:
                     if user.quest5test <= user.score:
                         user.quest5test = user.score
-                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
 
                 elif int(id) == 6:
                     if user.quest6test <= user.score:
                         user.quest6test = user.score
-                    user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
+
+                user.total = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test) // 6
+                user.totalScore = (user.quest1test + user.quest2test + user.quest3test + user.quest4test + user.quest5test + user.quest6test)
 
                 user.save()
 
@@ -205,7 +202,7 @@ def questions(request, id=1):
                 subb.testCaseScore = (for_count / 5) * 100
                 subb.save()
 
-                dictt = {'s':user.total,'e':cerror,'d':user.question_id,'t':timer(),'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
+                dictt = {'s':user.score,'e':cerror,'d':user.question_id,'t':timer(),'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
 
             return render(request, 'basic_app/Test Casee.html',context=dictt)
 
@@ -224,13 +221,13 @@ def questions(request, id=1):
                 Q = a[user.question_id - 1]
                 q = Q.questions
 
-                dict = {'q': q, 's': user.total, 'load': read}
+                dict = {'q': q, 's': user.totalScore, 'load': read}
                 return render(request, 'basic_app/Codingg.html', context=dict)
             except FileNotFoundError:
                 a = Questions.objects.all()
                 Q = a[user.question_id - 1]
                 q = Q.questions
-                dict = {'q': q, 't':timer(), 's': user.total}
+                dict = {'q': q, 't':timer(), 's': user.totalScore}
 
                 return render(request, 'basic_app/Codingg.html', context=dict)
 
