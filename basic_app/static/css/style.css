@@ -13,6 +13,9 @@
 .timer {
     position: relative;
 }
+th{
+    color:white;
+}
 .footer {
     height: 7vh;
     left: 0;
@@ -26,9 +29,13 @@
 
     text-align: center;
 }
+tr{
+    color:black;
+}
 .boxin{
     width: 100%;
-    box-shadow: 3px 3px 3px 0.5px black;
+         box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2),
+         0 6px 20px 0 rgba(0, 0, 0, 0.2);
     background-color: rgba(0, 0, 0,0.6);
     color: white;
     border-radius:5px; 

@@ -38,12 +38,13 @@ input[type="text"]{
     background:transparent;
     border-radius: 0px;
     width:37vh;
-    color:black;
+    color:white;
    font-family:'Times New Roman', Times, serif;
     margin-left: 2vh;
 }
 input[type="text"]:focus{
     background: rgba(0, 0, 0, 0.6);
+    color:white;
     border-radius: 6px;
 }
 input[type="email"] {
@@ -51,7 +52,7 @@ input[type="email"] {
     border-bottom: 2px solid black;
     background: transparent;
     border-radius: 0px;
-        color:black;
+        color:white;
         font-family:'Times New Roman',Times, serif;
     width: 37vh;
     margin-left: 2vh;
@@ -59,12 +60,13 @@ input[type="email"] {
 
 input[type="email"]:focus {
     background: rgba(0, 0, 0, 0.6);
-
+    color:white;
     border-radius: 6px;
 }
 input[type="password"] {
     border: none;
     border-bottom: 2px solid black;
+    color:white;
     background: transparent;
 	        font-family:'Times New Roman',Times, serif;
     border-radius: 0px;
@@ -74,7 +76,7 @@ input[type="password"] {
 
 input[type="password"]:focus {
     background: rgba(0, 0, 0, 0.6);
-
+color:white;
     border-radius: 6px;
 }
 input[type="tel"] {
@@ -82,7 +84,7 @@ input[type="tel"] {
     border-bottom: 2px solid black;
     background: transparent;
     border-radius: 0px;
-        color:black;
+        color:white;
         font-family:'Times New Roman',
         Times,
         serif;
@@ -91,7 +93,7 @@ input[type="tel"] {
 }
 input[type="tel"]:focus {
     background: rgba(0, 0, 0, 0.6);
-
+    color:white;
 
     border-radius: 6px;
 }
@@ -125,7 +127,7 @@ input[type="tel"]:focus {
     border:1px solid black;
     display: flex;
     justify-content: center;
-    width: 145px;
+    width: 149px;
     background-color: inherit;
     float: left;
     border: none;

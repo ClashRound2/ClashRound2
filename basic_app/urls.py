@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from basic_app import views
+from django.views.decorators.cache import never_cache
 
 app_name = 'basic_app'
 
@@ -9,7 +10,7 @@ urlpatterns=[
     url(r'codingpage/(?P<id>\d+)/$',views.questions,name='questions'),
     url(r'codingpage/$',views.questions,name='questions'),
     url(r'leader/$',views.leader,name='leader'),
-    url(r'instructions/$',views.instructions,name='instructions'),
+    url(r'instructions/$',never_cache(views.instructions),name='instructions'),
     url(r'retry/(?P<id>\d+)/$',views.retry,name='retry'),
     url(r'submissions/$',views.sub,name='sub'),
     url(r'^checkuse',views.checkuser,name="checkuser"),
