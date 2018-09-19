@@ -16,37 +16,33 @@
 </head>
 <body style="background-image:url({% static "Images/p.jpg" %});background-size: cover">
 <nav class="navbar navbar-expand-lg  navbar-dark  fixed-top " style="height:7vh; background-color:rgba(0,0,0,0.6);">
-    <img src="{% static "Images/clash.png" %}"style="height: 7vh;width:9vh;"><B class="ml-3" style="color: white;font-size: 155%">TESTCASE</B><B
-        class="ml-2" style="color: white;font-size:155%">PAGE</B>
-    <ul class="nav navbar-nav d-flex justify-content-end" style="width:100%;">
-        <div class="mt-2 mr-1 clock" style="width:39vh;height:6.5vh;margin:auto;"></div>
-        <div class="col-lg-1"></div>
-        <li class="nav-item ml-4">
-            <a class="nav-link my-2" href="{% url 'basic_app:leader' %}" target="_self" style="align-self:center;">
-                <button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Leaderboard</button>
-            </a>
-        </li>
-		<li class="nav-item ml-4">
+            <img src="{% static "Images/clash.png" %}" style="height: 7vh;width:9vh;"><B class="ml-3" style="color: white;font-size: 155%">CODING</B><B  class="ml-2"style="color: white;font-size:155%">PAGE</B>
+        <ul class="nav navbar-nav d-flex justify-content-end" style="width:100%;">
+<div class="mt-2 mr-1 clock" style="width:39vh;height:6.5vh;margin:auto;"></div>                        <div class="col-lg-1"></div>
+<li class="nav-item ml-4">
   <a class="nav-link my-2" href="{% url 'basic_app:sub' %}" target="_self" style="align-self:center;">
     <button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Submission</button>
   </a>
 </li>
-        <li class="nav-item ml-4">
-            <a class="nav-link my-2" href="{% url 'basic_app:question_panel' %}" target="_self" style="align-self:center;">
-                <button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Question
-                    Hub</button>
-            </a>
-        </li>
+            <li class="nav-item ml-4">
+                <a class="nav-link my-2" href="{% url 'basic_app:leader' %}" target="_self" style="align-self:center;">
+<button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Leaderboard</button>
+                </a>
+            </li>
+            <li class="nav-item ml-4">
+                <a class="nav-link my-2" href="{% url 'basic_app:question_panel' %}" target="_self" style="align-self:center;">
+<button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Question Hub</button>
+                </a>            </li>
 
-        <li class="nav-item ml-4 my-3">
-            <button class="btn btn-danger" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2)"
-                data-toggle="modal" data-target="#mymodal">Logout</button>
-        </li>
-        <li class="nav-item ml-4 mt-3">
-            <img src="{% static "Images/pisb1.png" %}" style="height:5vh;width:10vh">
-        </li>
-    </ul>
-</nav>
+            <li class="nav-item ml-4 my-3">
+                <button class="btn btn-danger" type="button"  style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2)" data-toggle="modal"
+                    data-target="#mymodal">Logout</button>
+            </li>
+            <li class="nav-item ml-4 mt-3">
+                <img src="{% static "Images/pisb1.png" %}" style="height:5vh;width:10vh">
+            </li>
+        </ul>
+    </nav>
 <div class="container-fluid" style="height: 86vh;margin-top: 7vh">
 
     <div class="row">

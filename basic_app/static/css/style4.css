@@ -119,6 +119,7 @@ p.status{
 .retry{
     border-radius:5px;
     width:20vh;
+    font-weight: bold;
     height:5vh;
     border-width:0.0vh;
     font-size:2vh;
@@ -156,6 +157,7 @@ p.statusfont{
 .n {
     outline: none;
     box-shadow: 3px 3px 3px black;
+    font-weight: bold;
 }
 
 .n:active {

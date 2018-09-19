@@ -133,4 +133,6 @@ input
 {
     background: transparent;
     border: 1px solid black;
+    height: 2vh;
+    margin-top: 1vh;
 }

@@ -4,24 +4,17 @@ from basic_app.models import User
 from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib.auth import login, logout
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponsePermanentRedirect
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 
 import datetime
 import os
 
-from .forms import DocumentForm
 
 endtime = 0
 
 path = 'data/users_code'
 path2 = 'data/standard'
 path3 = 'data/standard/testcaseScore'
-
-
-class Static:
-    Flag = False
-    Flag1 = False
-    subSec = 0
 
 
 def start_Timer(request):
@@ -52,7 +45,7 @@ def questions(request, id=1):
             username = request.user.username
 
             if not os.path.exists('{}/{}/'.format(path, username)):
-                user.attempts = 0   # this line should be exceuted only once
+                user.attempts = 0  # this line should be exceuted only once
                 os.system('mkdir {}/{}'.format(path, username))
 
                 for i in range(1, 7):
@@ -140,7 +133,10 @@ def questions(request, id=1):
 
                     with open(error, 'r') as e:
                         cerror = e.read()
-                        cerror = cerror.split('/', 4)[4]
+                        cerror1 = cerror.split('/')
+                        cerror2 = cerror1[0]+'/'+cerror1[1]+'/'+cerror1[2]+'/'
+                        cerror = cerror.replace(cerror2, '')
+
 
                 if tcOut[0] == 2 or tcOut[1] == 2 or tcOut[2] == 2 or tcOut[3] == 2 or tcOut[4] == 2:
                     cerror = "Time limit exceeded"
@@ -152,26 +148,32 @@ def questions(request, id=1):
                     cerror = "Abnormal Termination"
 
                 if int(id) == 1:
+                    user.qflag1 = True
                     if user.quest1test <= user.score:
                         user.quest1test = user.score
 
                 elif int(id) == 2:
+                    user.qflag2 = True
                     if user.quest2test <= user.score:
                         user.quest2test = user.score
 
                 elif int(id) == 3:
+                    user.qflag3 = True
                     if user.quest3test <= user.score:
                         user.quest3test = user.score
 
                 elif int(id) == 4:
+                    user.qflag4 = True
                     if user.quest4test <= user.score:
                         user.quest4test = user.score
 
                 elif int(id) == 5:
+                    user.qflag5 = True
                     if user.quest5test <= user.score:
                         user.quest5test = user.score
 
                 elif int(id) == 6:
+                    user.qflag6 = True
                     if user.quest6test <= user.score:
                         user.quest6test = user.score
 
@@ -231,35 +233,38 @@ def questions(request, id=1):
 
                 return render(request, 'basic_app/Codingg.html', context=dict)
 
-        elif 'browse' in request.POST:
-            form = DocumentForm(request.POST, request.FILES)
-            dict = {
-                'load': form
-            }
-            if form.is_valid():
-                file3 = request.FILES.get('doc1', )
-                form.save()
-                x = str(file3)
-
-                path4 = 'data/upload/' + x
-
-                uploadfile = open(path4, 'r')
-                up = uploadfile.read()
-                dict = {
-                    'upload': up
-                }
-                return render(request, 'basic_app/Codingg.html', context=dict)
-
 
 def question_panel(request):
     if request.user.is_authenticated:
+        try:
+            user = UserProfileInfo.objects.get(user=request.user)
+        except UserProfileInfo.DoesNotExist:
+            return register(request)
+
+        user.flag = True
+        user.save()
+
         all_user = UserProfileInfo.objects.all()
         accuracy_count = [0, 0, 0, 0, 0, 0]
+        user_sub_count = [0, 0, 0, 0, 0, 0]
         percentage_accuracy = [0, 0, 0, 0, 0, 0]
-        user_count = 0
 
         for user in all_user:
-            user_count += 1
+            if user.qflag1:
+                user_sub_count[0] += 1
+            elif user.qflag1:
+                user_sub_count[1] += 1
+            elif user.qflag1:
+                user_sub_count[2] += 1
+            elif user.qflag1:
+                user_sub_count[3] += 1
+            elif user.qflag1:
+                user_sub_count[4] += 1
+            elif user.qflag1:
+                user_sub_count[5] += 1
+
+        for user in all_user:
+
             if user.quest1test == 100:
                 accuracy_count[0] += 1
             if user.quest2test == 100:
@@ -274,7 +279,10 @@ def question_panel(request):
                 accuracy_count[5] += 1
 
         for i in range(0, 6):
-            percentage_accuracy[i] = int((accuracy_count[i] / user_count) * 100)
+            try:
+                percentage_accuracy[i] = int((accuracy_count[i] / user_sub_count[i]) * 100)
+            except ZeroDivisionError:
+                percentage_accuracy[i] = 0
 
         all_question = Questions.objects.all()
 
@@ -298,8 +306,6 @@ def question_panel(request):
                 'subs5': subs[5], 'qtitle0': qtitle[0], 'qtitle1': qtitle[1], 'qtitle2': qtitle[2],
                 'qtitle3': qtitle[3], 'qtitle4': qtitle[4], 'qtitle5': qtitle[5]}
 
-        Static.Flag = True
-
         return render(request,'basic_app/Question Hubb.html', context=dict)
     else:
         return HttpResponse("This is wrong boi")
@@ -318,8 +324,12 @@ def leader(request):
 
 def instructions(request):
     if request.user.is_authenticated:
-        if Static.Flag:
-            return question_panel(request)
+        try:
+            user = UserProfileInfo.objects.get(user=request.user)
+        except UserProfileInfo.DoesNotExist:
+            user = UserProfileInfo()
+        if user.flag:
+            return HttpResponseRedirect(reverse('basic_app:question_panel'))
         if request.method=="POST":
             return HttpResponseRedirect(reverse('basic_app:question_panel'))
         return render(request,'basic_app/instruction.html')
@@ -328,62 +338,74 @@ def instructions(request):
 
 
 def user_logout(request):
-    user = UserProfileInfo.objects.get(user=request.user)
-    a = UserProfileInfo.objects.order_by("total")
-    b = a.reverse()
-    counter = 0
-    for i in b:
-        counter += 1
-        if str(i.user) == str(request.user.username):
-            break
+    if request.user.is_authenticated:
+        try:
+            user = UserProfileInfo.objects.get(user=request.user)
+        except UserProfileInfo.DoesNotExist:
+            return register(request)
+        a = UserProfileInfo.objects.order_by("total")
+        b = a.reverse()
+        counter = 0
+        for i in b:
+            counter += 1
+            if str(i.user) == str(request.user.username):
+                break
 
-    dict = {'count': counter, 'name': request.user.username, 'score': user.score}
+        dict = {'count': counter, 'name': request.user.username, 'score': user.totalScore}
 
-    logout(request)
-    return render(request, 'basic_app/Result.htm', context=dict)
+        logout(request)
+        return render(request, 'basic_app/Result.htm', context=dict)
+    else:
+        return HttpResponse("This is wrong boi")
 
 
 def register(request):
-    if Static.Flag1:
-        return instructions(request)
-    try:
-        if request.method == 'POST':
-            Static.Flag1 = True
-            username = request.POST.get('name')
-            password= request.POST.get('password')
-            name1 = request.POST.get('name1')
-            name2 = request.POST.get('name2')
-            phone1 = request.POST.get('phone1')
-            phone2 = request.POST.get('phone1')
-            email1 = request.POST.get('email1')
-            email2 = request.POST.get('email2')
-            level = request.POST.get('level')
-
-            a= User.objects.create_user( username=username, password=password)
-
-            a.save()
-            login(request,a)
-            b=UserProfileInfo()
-            b.user=a
-            b.name1= name1
-            b.name2= name2
-            b.phone1 = phone1
-            b.phone2 = phone2
-            b.email1 = email1
-            b.email2 = email2
-            b.level = level
-            b.save()
-
+    if request.user.is_authenticated:
+        try:
+            user = UserProfileInfo.objects.get(user=request.user)
+        except UserProfileInfo.DoesNotExist:
+            user = UserProfileInfo()
+        if not user.flag:
             return HttpResponseRedirect(reverse('basic_app:instructions'))
+        return HttpResponseRedirect(reverse('basic_app:question_panel'))
+    else:
+        try:
+            if request.method == 'POST':
+                username = request.POST.get('name')
+                password= request.POST.get('password')
+                name1 = request.POST.get('name1')
+                name2 = request.POST.get('name2')
+                phone1 = request.POST.get('phone1')
+                phone2 = request.POST.get('phone1')
+                email1 = request.POST.get('email1')
+                email2 = request.POST.get('email2')
+                level = request.POST.get('level')
 
-    except IntegrityError:
-        return HttpResponse("you have already been registered.")
-    return render(request,'basic_app/Loginn.html')
+                a= User.objects.create_user( username=username, password=password)
+
+                a.save()
+                login(request,a)
+                b=UserProfileInfo()
+                b.user=a
+                b.name1= name1
+                b.name2= name2
+                b.phone1 = phone1
+                b.phone2 = phone2
+                b.email1 = email1
+                b.email2 = email2
+                b.level = level
+                b.save()
+
+                return HttpResponseRedirect(reverse('basic_app:instructions'))
+
+        except IntegrityError:
+            return HttpResponse("you have already been registered.")
+        return render(request,'basic_app/Loginn.html')
 
 
 def sub(request):
     user = UserProfileInfo.objects.get(user=request.user)
-    a = submissions.objects.filter(user=request   .user,qid=user.question_id)
+    a = submissions.objects.filter(user=request.user,qid=user.question_id)
     b=a.reverse()
 
     dict={'loop':b,'t':timer()}

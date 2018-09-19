@@ -51,7 +51,7 @@
           <table class="table table-striped mt-1" style="background-color: black;color:white;">
             <thead>
               <tr>
-                <th class="tabletext col-lg-1">Sr. No.</th>
+                <th class="tabletext col-lg-2">Sr. No.</th>
                 <th class="tabletext col-lg-3">Time</th>
                 <th class="tabletext col-lg-4">Status</th>
                 <th class="tabletext col-lg-4 c">View</th>
@@ -67,7 +67,7 @@
             {% for a in loop %}
 
               <tr class="g">
-                <td class="col-lg-1" color="white">{{ forloop.counter }}</td>
+                <td class="col-lg-2" color="white">{{ forloop.counter }}</td>
                 <td class="col-lg-3"><input type="text" value="{{a.subtime}}" readonly class="e"></td>
                 <td class="col-lg-4"><div class="progress a">
                   <div class="progressbar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="1000" style="width: {{a.testCaseScore}}%">

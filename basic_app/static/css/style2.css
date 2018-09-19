@@ -31,6 +31,7 @@ input[type="radio"]:hover{
 .b{
     outline: none;
     box-shadow: 3px 3px 3px black;
+    font-weight: bold;
 }
 .b:active{
      transform: translateY(4px);
@@ -54,4 +55,5 @@ input[type="radio"]:hover{
 }
 .l{
      box-shadow: 3px 3px 3px 0.5px black;
+     margin-top: 1vh;
 }
