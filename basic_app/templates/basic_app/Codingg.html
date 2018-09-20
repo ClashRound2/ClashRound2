@@ -76,17 +76,17 @@ console.log()
         <ul class="nav navbar-nav d-flex justify-content-end" style="width:100%;">
 <div class="mt-2 mr-1 clock" style="width:39vh;height:6.5vh;margin:auto;"></div>                        <div class="col-lg-1"></div>
 <li class="nav-item ml-4">
-  <a class="nav-link my-2" href="{% url 'basic_app:sub' %}" target="_self" style="align-self:center;">
+  <a class="nav-link my-2" href="{% url 'sub' %}" target="_self" style="align-self:center;">
     <button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Submission</button>
   </a>
 </li>
             <li class="nav-item ml-4">
-                <a class="nav-link my-2" href="{% url 'basic_app:leader' %}" target="_self" style="align-self:center;">
+                <a class="nav-link my-2" href="{% url 'leader' %}" target="_self" style="align-self:center;">
 <button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Leaderboard</button>
                 </a>
             </li>
             <li class="nav-item ml-4">
-                <a class="nav-link my-2" href="{% url 'basic_app:question_panel' %}" target="_self" style="align-self:center;">
+                <a class="nav-link my-2" href="{% url 'question_panel' %}" target="_self" style="align-self:center;">
 <button class="btn" type="button" style="color:white;box-shadow: 0 8px 16px rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);background-color: teal">Question Hub</button>
                 </a>            </li>
 
@@ -203,7 +203,7 @@ console.log()
         </div>
     </section>
 <nav class="navbar navbar-expand-lg navbar-dark" style="height:7vh;display: flex;justify-content: center;align-items:center; background-color:rgba(0,0,0,0.6);">
-        <b style="color:white;font-weight: bold">© PICT IEEE STUDENT BRANCH</b>
+        <b style="color:white;font-weight: bold">©  IEEE COMPUTER SOCIETY</b>
     </nav>
     <script src="{% static 'cdn/src-min-noconflict/ace.js' %}" type="text/javascript" setmode="" charset="utf-8"></script>
     <script>
@@ -227,7 +227,7 @@ console.log()
 		function check() {
 console.log("Loadbuffer")
    $.ajax({
-        url : '{% url 'basic_app:loadbuff' %}',
+        url : '{% url 'loadbuff' %}',
         data : {'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()},
         method: "POST",
         dataType : "json",

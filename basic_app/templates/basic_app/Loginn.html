@@ -84,7 +84,7 @@
     <div class=" col" style="color:red;display:none;"  id="login_not">
 						 <i class="fa fa-exclamation-triangle" aria-hidden="true" style=""></i>
                          Username already taken.</div>
-                    <div class="col" style="color: green;display:block;" id="login_ok">
+                    <div class="col" style="color: green;display:block;margin-top:0.2vh;" id="login_ok">
 					 <i class="fa fa-check" aria-hidden="true" style=""></i>
                          Username available.
                     </div>
@@ -107,7 +107,7 @@
 
     </div>
     <footer class="footer" style="padding-top: 10px;background-color: rgb(0,0,0,0.6)">
-        <p><b>©PICT IEEE STUDENT BRANCH</b></p>
+        <p><b>©  IEEE COMPUTER SOCIETY</b></p>
     </footer>
 {% csrf_token %}
 </form>
@@ -118,7 +118,7 @@
 <script>
     function check(str) {
    $.ajax({
-        url : "{% url 'basic_app:checkuser' %}",
+        url : "{% url 'checkuser' %}",
         data : {'name':str,'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()},
         method: "POST",
         dataType : "json",

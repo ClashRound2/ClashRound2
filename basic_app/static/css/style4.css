@@ -67,7 +67,7 @@ p.false{
     border-width:0.0vh;
          background-color:rgba(0, 0, 0, 0.6);
     text-align:center;
-    font-size: 2vh;
+    font-size: 4vh;
     color:cyan;
     margin-top:4vh;
     padding: 12px;
@@ -107,7 +107,8 @@ p.status{
             border-style: solid;
         border-width:0.0vh;
         text-align:center;
-        font-size:2vh;
+        font-size:4vh;
+        text-align:center;
              background-color:rgba(0, 0, 0, 0.6);
         color: cyan;
         margin-left:4vh;

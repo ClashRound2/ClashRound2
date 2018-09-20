@@ -22,8 +22,18 @@ urlpatterns = [
     url(r'^timer/', views.start_Timer),
     url(r'^admin/', admin.site.urls),
     url(r'^logout/$', views.user_logout, name='user_logout'),
-    url(r'^basic_app/', include('basic_app.urls')),
-    url(r'^register/', never_cache(views.register), name='register'),
-    url(r'^$',views.waiting)
+    url(r'^register/$', never_cache(views.register), name='register'),
+    url(r'^elogin/', views.elogin),
+    url(r'^$',never_cache(views.waiting), name='waiting'),
+    url(r'^questions/$',views.question_panel,name='question_panel'),
+    url(r'codingpage/(?P<id>\d+)/$',views.questions,name='questions'),
+    url(r'codingpage/$',views.questions,name='questions'),
+    url(r'leader/$',views.leader,name='leader'),
+    url(r'instructions/$',never_cache(views.instructions),name='instructions'),
+    url(r'retry/(?P<id>\d+)/$',views.retry,name='retry'),
+    url(r'submissions/$',views.sub,name='sub'),
+    url(r'^checkuse$',views.checkuser,name="checkuser"),
+    url(r'^loadbuff$',views.loadbuff,name='loadbuff'),
+    url(r'/',views.register, name='register'),
 
 ]
