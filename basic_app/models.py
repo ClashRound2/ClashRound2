@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
 
 th='data/upload'
 
@@ -46,6 +45,7 @@ class UserProfileInfo(models.Model):
     def __str__(self):
 
         return self.user.username
+
 
 class submissions(models.Model):
     sub=models.TextField()
