@@ -11,6 +11,7 @@ import os
 
 
 endtime = 0
+starttime="10:45"
 
 path = 'data/users_code'
 path2 = 'data/standard'
@@ -23,7 +24,24 @@ def start_Timer(request):
     time=now.second+now.minute*60+now.hour*60*60
     global endtime
     endtime=time+7200
-    return HttpResponse("good to go")
+    return 0
+
+
+def waiting(request):
+    now = datetime.datetime.now()
+    min = now.minute
+    hour = now.hour
+    time = str(hour)+":" +str(min)
+    global starttime
+    a = starttime
+    print(time, "this is")
+
+    if time == a:
+        start_Timer(request)
+        print("hello")
+        return HttpResponseRedirect(reverse('register'))
+    else:
+        return render(request, 'basic_app/waiting.html')
 
 
 def timer():
@@ -57,7 +75,7 @@ def questions(request, id=1):
 
             return render(request, 'basic_app/Codingg.html', context=dict)
 
-        if 'submit' in request.POST:
+        else:
 
             some_text = request.POST.get('editor')
             subb = submissions(user=request.user)
@@ -137,7 +155,6 @@ def questions(request, id=1):
                         cerror2 = cerror1[0]+'/'+cerror1[1]+'/'+cerror1[2]+'/'
                         cerror = cerror.replace(cerror2, '')
 
-
                 if tcOut[0] == 2 or tcOut[1] == 2 or tcOut[2] == 2 or tcOut[3] == 2 or tcOut[4] == 2:
                     cerror = "Time limit exceeded"
 
@@ -208,30 +225,6 @@ def questions(request, id=1):
 
             return render(request, 'basic_app/Test Casee.html',context=dictt)
 
-        elif 'load' in request.POST:
-            username = request.user.username
-            user = UserProfileInfo.objects.get(user=request.user)
-
-            try:
-                option = user.option
-                z = open('{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts,
-                                                           option), 'r')
-                read = z.read()
-
-                user.save()
-                a = Questions.objects.all()
-                Q = a[user.question_id - 1]
-                q = Q.questions
-
-                dict = {'q': q, 's': user.totalScore, 'load': read}
-                return render(request, 'basic_app/Codingg.html', context=dict)
-            except FileNotFoundError:
-                a = Questions.objects.all()
-                Q = a[user.question_id - 1]
-                q = Q.questions
-                dict = {'q': q, 't':timer(), 's': user.totalScore}
-
-                return render(request, 'basic_app/Codingg.html', context=dict)
 
 
 def question_panel(request):
@@ -252,15 +245,15 @@ def question_panel(request):
         for user in all_user:
             if user.qflag1:
                 user_sub_count[0] += 1
-            elif user.qflag1:
+            if user.qflag2:
                 user_sub_count[1] += 1
-            elif user.qflag1:
+            if user.qflag3:
                 user_sub_count[2] += 1
-            elif user.qflag1:
+            if user.qflag4:
                 user_sub_count[3] += 1
-            elif user.qflag1:
+            if user.qflag5:
                 user_sub_count[4] += 1
-            elif user.qflag1:
+            if user.qflag6:
                 user_sub_count[5] += 1
 
         for user in all_user:

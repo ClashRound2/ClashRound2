@@ -47,12 +47,6 @@ class UserProfileInfo(models.Model):
 
         return self.user.username
 
-
-class file(models.Model):
-    title = models.CharField(max_length=50,blank=True)
-    doc1 = models.FileField(upload_to=th)
-
-
 class submissions(models.Model):
     sub=models.TextField()
     qid=models.IntegerField(default=0)

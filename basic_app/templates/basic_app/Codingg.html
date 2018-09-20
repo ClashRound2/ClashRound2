@@ -257,6 +257,8 @@ function loadFileAsText(){
   var fileToLoad = document.getElementById("fileToLoad").files[0];
 
   var fileReader = new FileReader();
+  if (/\.(c|cpp)$/i.test(fileToLoad.name)===false) {alert("ENTER ONLY .c or .cpp FILES");}
+  else{
   fileReader.onload = function(fileLoadedEvent){
   var editor = ace.edit("editor");
 
@@ -268,9 +270,13 @@ function loadFileAsText(){
 
   };
   fileReader.readAsText(fileToLoad, "UTF-8");
+  }
 
 
 }
+
+
+
 
     </script>
     {% csrf_token %}
