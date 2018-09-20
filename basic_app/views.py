@@ -137,7 +137,6 @@ def questions(request, id=1):
                         cerror2 = cerror1[0]+'/'+cerror1[1]+'/'+cerror1[2]+'/'
                         cerror = cerror.replace(cerror2, '')
 
-
                 if tcOut[0] == 2 or tcOut[1] == 2 or tcOut[2] == 2 or tcOut[3] == 2 or tcOut[4] == 2:
                     cerror = "Time limit exceeded"
 
@@ -252,15 +251,15 @@ def question_panel(request):
         for user in all_user:
             if user.qflag1:
                 user_sub_count[0] += 1
-            elif user.qflag1:
+            if user.qflag2:
                 user_sub_count[1] += 1
-            elif user.qflag1:
+            if user.qflag3:
                 user_sub_count[2] += 1
-            elif user.qflag1:
+            if user.qflag4:
                 user_sub_count[3] += 1
-            elif user.qflag1:
+            if user.qflag5:
                 user_sub_count[4] += 1
-            elif user.qflag1:
+            if user.qflag6:
                 user_sub_count[5] += 1
 
         for user in all_user:
