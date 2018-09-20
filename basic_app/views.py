@@ -5,13 +5,15 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.contrib.auth import authenticate
 
 import datetime
 import os
 
-
 endtime = 0
-starttime="10:45"
+_flag = False
+
+starttime = ""
 
 path = 'data/users_code'
 path2 = 'data/standard'
@@ -19,29 +21,46 @@ path3 = 'data/standard/testcaseScore'
 
 
 def start_Timer(request):
+    global _flag
+    _flag = True
+    now1 = datetime.datetime.now()
+    min1 = now1.minute + 1
+    hour1 = now1.hour
+    time1 = str(hour1) + ':' + str(min1)
 
-    now = datetime.datetime.now()
-    time=now.second+now.minute*60+now.hour*60*60
+    time = now1.second+now1.minute*60+now1.hour*60*60
     global endtime
-    endtime=time+7200
-    return 0
+    global starttime
+    starttime = time1
+    endtime = time + 7200
+
+    return HttpResponse("Timer has started")
 
 
 def waiting(request):
-    now = datetime.datetime.now()
-    min = now.minute
-    hour = now.hour
-    time = str(hour)+":" +str(min)
-    global starttime
-    a = starttime
-    print(time, "this is")
-
-    if time == a:
-        start_Timer(request)
-        print("hello")
-        return HttpResponseRedirect(reverse('register'))
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('question_panel'))
     else:
-        return render(request, 'basic_app/waiting.html')
+        now = datetime.datetime.now()
+        min = now.minute
+        hour = now.hour
+        sec = min * 60 + hour * 60 * 60
+        time = str(hour)+":" + str(min)
+
+        global starttime
+
+        if not starttime == "":
+            _time_string = starttime.split(":")
+            _min = int(_time_string[1])
+            _hour = int(_time_string[0])
+            _sec = _hour * 60 * 60 + _min * 60
+            if sec > _sec:
+                return HttpResponseRedirect(reverse('register'))
+
+        if time == starttime:
+            return HttpResponseRedirect(reverse('register'))
+        else:
+            return render(request, 'basic_app/waiting.html')
 
 
 def timer():
@@ -129,6 +148,7 @@ def questions(request, id=1):
                     89: 3,
                     70: 4,
                     20: 5,
+                    60: 6
                 }
 
                 user.score = 0
@@ -163,6 +183,9 @@ def questions(request, id=1):
 
                 if tcOut[0] == 5 or tcOut[1] == 5 or tcOut[2] == 5 or tcOut[3] == 5 or tcOut[4] == 5:
                     cerror = "Abnormal Termination"
+
+                if tcOut[0] == 6 or tcOut[1] == 6 or tcOut[2] == 6 or tcOut[3] == 6 or tcOut[4] == 6:
+                    cerror = "Run time error"
 
                 if int(id) == 1:
                     user.qflag1 = True
@@ -224,7 +247,6 @@ def questions(request, id=1):
                 dictt = {'s':user.score,'e':cerror,'d':user.question_id,'t':timer(),'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
 
             return render(request, 'basic_app/Test Casee.html',context=dictt)
-
 
 
 def question_panel(request):
@@ -322,9 +344,9 @@ def instructions(request):
         except UserProfileInfo.DoesNotExist:
             user = UserProfileInfo()
         if user.flag:
-            return HttpResponseRedirect(reverse('basic_app:question_panel'))
+            return HttpResponseRedirect(reverse('question_panel'))
         if request.method=="POST":
-            return HttpResponseRedirect(reverse('basic_app:question_panel'))
+            return HttpResponseRedirect(reverse('question_panel'))
         return render(request,'basic_app/instruction.html')
     else:
         return HttpResponse("This is wrong boi")
@@ -359,10 +381,13 @@ def register(request):
         except UserProfileInfo.DoesNotExist:
             user = UserProfileInfo()
         if not user.flag:
-            return HttpResponseRedirect(reverse('basic_app:instructions'))
-        return HttpResponseRedirect(reverse('basic_app:question_panel'))
+            return HttpResponseRedirect(reverse('instructions'))
+        return HttpResponseRedirect(reverse('question_panel'))
     else:
         try:
+            global _flag
+            if not _flag:
+                return HttpResponseRedirect(reverse('waiting'))
             if request.method == 'POST':
                 username = request.POST.get('name')
                 password= request.POST.get('password')
@@ -389,7 +414,7 @@ def register(request):
                 b.level = level
                 b.save()
 
-                return HttpResponseRedirect(reverse('basic_app:instructions'))
+                return HttpResponseRedirect(reverse('instructions'))
 
         except IntegrityError:
             return HttpResponse("you have already been registered.")
@@ -454,3 +479,21 @@ def loadbuff(request):
     return JsonResponse(response_data)
 
 
+def elogin(request):
+    if request.method == 'POST':
+
+        username = request.POST.get('user')
+        password = request.POST.get('pass')
+        adminpassword = request.POST.get('pass1')
+        user = authenticate(username=username, password=password)
+
+        if user is not None and adminpassword is "1":
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('question_panel'))
+
+        else:
+            return HttpResponse("Invalid login details supplied.")
+
+    else:
+        return render(request, 'basic_app/elogin.html', {})
