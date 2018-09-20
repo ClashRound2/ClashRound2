@@ -11,6 +11,7 @@ import os
 
 
 endtime = 0
+starttime="10:45"
 
 path = 'data/users_code'
 path2 = 'data/standard'
@@ -23,7 +24,24 @@ def start_Timer(request):
     time=now.second+now.minute*60+now.hour*60*60
     global endtime
     endtime=time+7200
-    return HttpResponse("good to go")
+    return 0
+
+
+def waiting(request):
+    now = datetime.datetime.now()
+    min = now.minute
+    hour = now.hour
+    time = str(hour)+":" +str(min)
+    global starttime
+    a = starttime
+    print(time, "this is")
+
+    if time == a:
+        start_Timer(request)
+        print("hello")
+        return HttpResponseRedirect(reverse('register'))
+    else:
+        return render(request, 'basic_app/waiting.html')
 
 
 def timer():
@@ -57,7 +75,7 @@ def questions(request, id=1):
 
             return render(request, 'basic_app/Codingg.html', context=dict)
 
-        if 'submit' in request.POST:
+        else:
 
             some_text = request.POST.get('editor')
             subb = submissions(user=request.user)
@@ -207,30 +225,6 @@ def questions(request, id=1):
 
             return render(request, 'basic_app/Test Casee.html',context=dictt)
 
-        elif 'load' in request.POST:
-            username = request.user.username
-            user = UserProfileInfo.objects.get(user=request.user)
-
-            try:
-                option = user.option
-                z = open('{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts,
-                                                           option), 'r')
-                read = z.read()
-
-                user.save()
-                a = Questions.objects.all()
-                Q = a[user.question_id - 1]
-                q = Q.questions
-
-                dict = {'q': q, 's': user.totalScore, 'load': read}
-                return render(request, 'basic_app/Codingg.html', context=dict)
-            except FileNotFoundError:
-                a = Questions.objects.all()
-                Q = a[user.question_id - 1]
-                q = Q.questions
-                dict = {'q': q, 't':timer(), 's': user.totalScore}
-
-                return render(request, 'basic_app/Codingg.html', context=dict)
 
 
 def question_panel(request):

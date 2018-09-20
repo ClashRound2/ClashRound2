@@ -19,11 +19,11 @@ from basic_app import views
 from django.views.decorators.cache import never_cache
 
 urlpatterns = [
-    url(r'^$',never_cache(views.register),name='register'),
     url(r'^timer/', views.start_Timer),
     url(r'^admin/', admin.site.urls),
     url(r'^logout/$', views.user_logout, name='user_logout'),
     url(r'^basic_app/', include('basic_app.urls')),
-    url(r'/', views.register)
+    url(r'^register/', never_cache(views.register), name='register'),
+    url(r'^$',views.waiting)
 
 ]
