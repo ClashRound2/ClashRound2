@@ -21,20 +21,28 @@ path3 = 'data/standard/testcaseScore'
 
 
 def start_Timer(request):
-    global _flag
-    _flag = True
-    now1 = datetime.datetime.now()
-    min1 = now1.minute + 1
-    hour1 = now1.hour
-    time1 = str(hour1) + ':' + str(min1)
+    if request.method == 'GET':
+        return render(request, 'basic_app/timer.html')
+    else:
+        adminpassword = '1'
+        _password = request.POST.get('pass1')
+        if _password == adminpassword:
+            global _flag
+            _flag = True
+            now1 = datetime.datetime.now()
+            min1 = now1.minute + 1
+            hour1 = now1.hour
+            time1 = str(hour1) + ':' + str(min1)
 
-    time = now1.second+now1.minute*60+now1.hour*60*60
-    global endtime
-    global starttime
-    starttime = time1
-    endtime = time + 7200
+            time = now1.second+now1.minute*60+now1.hour*60*60
+            global endtime
+            global starttime
+            starttime = time1
+            endtime = time + 7200
 
-    return HttpResponse("Timer has started")
+            return HttpResponse("Timer set go")
+        else:
+            return HttpResponse("Invalid login details supplied.")
 
 
 def waiting(request):
@@ -127,8 +135,6 @@ def questions(request, id=1):
             senior = [int(i.strip()) for i in content[5:10]]
 
             user.attempts += 1
-
-            print("USER ATTEMPTS ARE", user.attempts)
 
             fo = open('{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts, option), 'w')
             fo.write(some_text) # writes .c file
@@ -247,6 +253,8 @@ def questions(request, id=1):
                 dictt = {'s':user.score,'e':cerror,'d':user.question_id,'t':timer(),'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
 
             return render(request, 'basic_app/Test Casee.html',context=dictt)
+    else:
+        return HttpResponseRedirect(reverse('register'))
 
 
 def question_panel(request):
@@ -323,7 +331,7 @@ def question_panel(request):
 
         return render(request,'basic_app/Question Hubb.html', context=dict)
     else:
-        return HttpResponse("This is wrong boi")
+        return HttpResponseRedirect(reverse('register'))
 
 
 def leader(request):
@@ -334,7 +342,7 @@ def leader(request):
         return render(request,'basic_app/Leaderboard.html',context=dict)
 
     else:
-        return HttpResponse("This is wrong boi")
+        return HttpResponseRedirect(reverse('register'))
 
 
 def instructions(request):
@@ -349,7 +357,7 @@ def instructions(request):
             return HttpResponseRedirect(reverse('question_panel'))
         return render(request,'basic_app/instruction.html')
     else:
-        return HttpResponse("This is wrong boi")
+        return HttpResponseRedirect(reverse('register'))
 
 
 def user_logout(request):
@@ -371,7 +379,7 @@ def user_logout(request):
         logout(request)
         return render(request, 'basic_app/Result.htm', context=dict)
     else:
-        return HttpResponse("This is wrong boi")
+        return HttpResponseRedirect(reverse('register'))
 
 
 def register(request):
@@ -390,16 +398,29 @@ def register(request):
                 return HttpResponseRedirect(reverse('waiting'))
             if request.method == 'POST':
                 username = request.POST.get('name')
-                password= request.POST.get('password')
+                username = username.split(" ")[0]
+
+                if username == "":
+                    return render(request,'basic_app/Loginn.html')
+                password = request.POST.get('password')
                 name1 = request.POST.get('name1')
+
+                if name1 == "":
+                    return render(request, 'basic_app/Loginn.html')
                 name2 = request.POST.get('name2')
                 phone1 = request.POST.get('phone1')
+
+                if len(phone1) is not 10:
+                    return render(request, 'basic_app/Loginn.html')
                 phone2 = request.POST.get('phone1')
                 email1 = request.POST.get('email1')
+
+                if email1 == "":
+                    return render(request, 'basic_app/Loginn.html')
                 email2 = request.POST.get('email2')
                 level = request.POST.get('level')
 
-                a= User.objects.create_user( username=username, password=password)
+                a = User.objects.create_user( username=username, password=password)
 
                 a.save()
                 login(request,a)
@@ -449,7 +470,7 @@ def retry(request,id=1):
 
         return render(request, 'basic_app/Codingg.html', context=dict)
     if request.method=="POST":
-        return questions(request)
+        return HttpResponseRedirect(reverse('questions'))
 
 
 def checkuser(request):
@@ -481,13 +502,13 @@ def loadbuff(request):
 
 def elogin(request):
     if request.method == 'POST':
-
+        adminpassword = 1
         username = request.POST.get('user')
         password = request.POST.get('pass')
-        adminpassword = request.POST.get('pass1')
+        _password = request.POST.get('pass1')
         user = authenticate(username=username, password=password)
 
-        if user is not None and adminpassword is "1":
+        if user is not None and _password is adminpassword:
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect(reverse('question_panel'))

@@ -32,6 +32,7 @@ class UserProfileInfo(models.Model):
     total = models.IntegerField(default=0)
     attempts = models.IntegerField(default=0)
     question_id = models.IntegerField(default=0)
+
     phone1 = models.CharField(max_length=10)
     phone2 = models.CharField(max_length=10)
     name1 = models.CharField(max_length=100)
