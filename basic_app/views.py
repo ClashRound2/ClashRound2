@@ -470,7 +470,7 @@ def retry(request,id=1):
 
         return render(request, 'basic_app/Codingg.html', context=dict)
     if request.method=="POST":
-        return HttpResponseRedirect(reverse('questions'))
+        return questions(request)
 
 
 def checkuser(request):
