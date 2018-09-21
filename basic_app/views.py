@@ -22,30 +22,30 @@ path3 = 'data/standard/testcaseScore'
 
 def start_Timer(request):
     if request.method == 'GET':
-        return render(request, 'basic_app/timer.html')
+        return render(request, 'basic_app/timer.html')  # timer url known only to us
     else:
         adminpassword = '1'
-        _password = request.POST.get('pass1')
+        _password = request.POST.get('pass1')   # get admin password
         if _password == adminpassword:
             global _flag
-            _flag = True
-            now1 = datetime.datetime.now()
-            min1 = now1.minute + 1
+            _flag = True    # flag True when you start the timer(used so he cannot go to register before waitin page# )
+            now1 = datetime.datetime.now()  # cuurent time       ( by putting the url )
+            min1 = now1.minute + 1  # 1 signifies time after hitting timer url
             hour1 = now1.hour
-            time1 = str(hour1) + ':' + str(min1)
+            time1 = str(hour1) + ':' + str(min1)    # makes the string of current time + 1 min
 
             time = now1.second+now1.minute*60+now1.hour*60*60
             global endtime
             global starttime
             starttime = time1
-            endtime = time + 7200
+            endtime = time + 7200   # 7200 defines our event time
 
             return HttpResponse("Timer set go")
         else:
             return HttpResponse("Invalid login details supplied.")
 
 
-def waiting(request):
+def waiting(request):   # this view gets called every 5 seconds
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('question_panel'))
     else:
@@ -55,17 +55,19 @@ def waiting(request):
         sec = min * 60 + hour * 60 * 60
         time = str(hour)+":" + str(min)
 
-        global starttime
+        global starttime    # has current time + 1 min time in string format
 
         if not starttime == "":
             _time_string = starttime.split(":")
-            _min = int(_time_string[1])
+            _min = int(_time_string[1]) # extract the hour and min for later use
             _hour = int(_time_string[0])
-            _sec = _hour * 60 * 60 + _min * 60
-            if sec > _sec:
+            _sec = _hour * 60 * 60 + _min * 60  # the hour and min in seconds
+            if sec > _sec:  # if current time of hr:min in seconds greater than starttime ka seconds(hr:min conversion)
+                            # so he should not go back to waiting page once he goes to register page
                 return HttpResponseRedirect(reverse('register'))
 
-        if time == starttime:
+        if time == starttime:   # since waiting page refreshes every 5 seconds when the current time equates to
+                                # time defined when timer was hit i.e +1 the curr time then :
             return HttpResponseRedirect(reverse('register'))
         else:
             return render(request, 'basic_app/waiting.html')
@@ -74,7 +76,7 @@ def waiting(request):
 def timer():
     now = datetime.datetime.now()
     time = now.second + now.minute * 60 + now.hour * 60 * 60
-    global endtime
+    global endtime  # defined once when timer was hit
     return endtime-time
 
 
@@ -84,12 +86,12 @@ def questions(request, id=1):
             a = Questions.objects.all()
             user = UserProfileInfo.objects.get(user=request.user)
             user.question_id = int(id)
-            Q = a[user.question_id-1]
-            q = Q.questions
+            Q = a[user.question_id-1]   # current question
+            q = Q.questions # content of question
 
             username = request.user.username
 
-            if not os.path.exists('{}/{}/'.format(path, username)):
+            if not os.path.exists('{}/{}/'.format(path, username)): # make folders of user
                 user.attempts = 0  # this line should be exceuted only once
                 os.system('mkdir {}/{}'.format(path, username))
 
@@ -104,7 +106,7 @@ def questions(request, id=1):
 
         else:
 
-            some_text = request.POST.get('editor')
+            some_text = request.POST.get('editor') # code to store in submission instance
             subb = submissions(user=request.user)
             subb.sub = some_text
             time = timer()
@@ -116,22 +118,22 @@ def questions(request, id=1):
             else:
                 min = a // 60
                 sec = a % 60
-            subb.subtime = '{}:{}:{}'.format(hour, min, sec)
+            subb.subtime = '{}:{}:{}'.format(hour, min, sec)    # stores time of submission
 
-            option = request.POST.get('lang')
+            option = request.POST.get('lang')   # get c or cpp
             username = request.user.username
             user = UserProfileInfo.objects.get(user=request.user)
             juniorSenior = user.level
-            user.option=option
-            subb.qid = user.question_id
+            user.option = option
+            subb.qid = user.question_id # submission quesion id
             subb.save()
 
             testlist = ['fail', 'fail', 'fail', 'fail', 'fail']
 
             myfile = open('{}/{}/{}.txt'.format(path3, str(user.question_id), str(user.question_id)))
-            content = myfile.readlines()
+            content = myfile.readlines()    # juniorsenior marks for testcases stores in content
 
-            junior = [int(i.strip()) for i in content[0:5]]
+            junior = [int(i.strip()) for i in content[0:5]] # first five for juniors
             senior = [int(i.strip()) for i in content[5:10]]
 
             user.attempts += 1
@@ -142,19 +144,20 @@ def questions(request, id=1):
 
             if os.path.exists('{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts, option)):
                 ans = os.popen("python data/main.py " + "{}/{}/question{}/{}{}.{}".format(path, username, user.question_id, username, user.attempts, option) + " " + username + " " + str(user.question_id) + " " + juniorSenior + " " + str(user.attempts)).read()
-                ans = int(ans)  # saves like 9999899950
+                # sandbox returns the 2 digit code of five testcases as a single integer of 10 digit number
+                ans = int(ans)  # saves 99'99'89'99'50 as 9999899950 these ae sandbox returned codes of 5 testcases
                 print("THE SANDBOX CODE IS", ans)
-                data = [1, 2, 3, 4, 5]
-                tcOut = [0, 1, 2, 3, 4]
+                data = [1, 2, 3, 4, 5]  # codes of each testcase for the question
+                tcOut = [0, 1, 2, 3, 4] # switch case number for sandbox coode
                 switch = {
 
-                    10: 0,
-                    99: 1,
-                    50: 2,
-                    89: 3,
-                    70: 4,
-                    20: 5,
-                    60: 6
+                    10: 0,  # correct answer code
+                    99: 1,  # wrong answer code
+                    50: 2,  # System commands
+                    89: 3,  # compile time error
+                    70: 4,  # Abnormal termination
+                    20: 5,  # custom error
+                    60: 6   # Run time error
                 }
 
                 user.score = 0
@@ -164,7 +167,7 @@ def questions(request, id=1):
 
                     tcOut[i] = switch.get(data[i], 2)
                     if tcOut[i] == 0:  # if data[i] is 10 i.e correct answer
-                        testlist[4 - i] = 'pass'
+                        testlist[4 - i] = 'pass'    # since data stored in reverse order
                         if juniorSenior == 'junior':
                             user.score = user.score + junior[i]
                         else:
@@ -172,14 +175,15 @@ def questions(request, id=1):
 
                 cerror = " "
 
-                if tcOut[4] == 3:
+                if tcOut[4] == 3:   # if comiler error then store read it for error.txt which was made in main.py
+                                    # and store it in strinf cerror to display on console
                     error = path + "/" + username + "/" + str("error{}.txt".format(user.question_id))
 
                     with open(error, 'r') as e:
                         cerror = e.read()
                         cerror1 = cerror.split('/')
                         cerror2 = cerror1[0]+'/'+cerror1[1]+'/'+cerror1[2]+'/'
-                        cerror = cerror.replace(cerror2, '')
+                        cerror = cerror.replace(cerror2, '')    # scrape the file path of users
 
                 if tcOut[0] == 2 or tcOut[1] == 2 or tcOut[2] == 2 or tcOut[3] == 2 or tcOut[4] == 2:
                     cerror = "Time limit exceeded"
@@ -191,12 +195,12 @@ def questions(request, id=1):
                     cerror = "Abnormal Termination"
 
                 if tcOut[0] == 6 or tcOut[1] == 6 or tcOut[2] == 6 or tcOut[3] == 6 or tcOut[4] == 6:
-                    cerror = "Run time error"
+                    cerror = "Run time error"   # strings to display on console
 
                 if int(id) == 1:
-                    user.qflag1 = True
-                    if user.quest1test <= user.score:
-                        user.quest1test = user.score
+                    user.qflag1 = True  # flags to check if sumbitted(required for accuracy)
+                    if user.quest1test <= user.score:   # store the mac sccore
+                        user.quest1test = user.score   # question1 marks
 
                 elif int(id) == 2:
                     user.qflag2 = True
@@ -229,7 +233,7 @@ def questions(request, id=1):
                 user.save()
 
                 a = Questions.objects.all()
-                Q = a[user.question_id - 1]
+                Q = a[user.question_id - 1] # cuurent question object
 
                 status = 'Not completed'
 
@@ -241,13 +245,13 @@ def questions(request, id=1):
 
                 if for_count == 5:
                     status = 'Completed'
-                    Q._submissions += 1
+                    Q._submissions += 1 # if score 100 then increase successful subs for that question by 1
                     Q.save()
 
                 elif for_count == 0:
                     status = 'fail'
 
-                subb.testCaseScore = (for_count / 5) * 100
+                subb.testCaseScore = (for_count / 5) * 100  # testcase % completion
                 subb.save()
 
                 dictt = {'s':user.score,'e':cerror,'d':user.question_id,'t':timer(),'t1':testlist[0],'t2':testlist[1],'t3':testlist[2],'t4':testlist[3],'t5':testlist[4],'status':status}
@@ -264,16 +268,17 @@ def question_panel(request):
         except UserProfileInfo.DoesNotExist:
             return register(request)
 
-        user.flag = True
+        user.flag = True    # once reaches question_panel do not enable user to go back
         user.save()
 
         all_user = UserProfileInfo.objects.all()
-        accuracy_count = [0, 0, 0, 0, 0, 0]
-        user_sub_count = [0, 0, 0, 0, 0, 0]
-        percentage_accuracy = [0, 0, 0, 0, 0, 0]
+
+        accuracy_count = [0, 0, 0, 0, 0, 0] # number of users who have 100 score for each 6 questions
+        user_sub_count = [0, 0, 0, 0, 0, 0] # number of users who have atleast one submissions
+        percentage_accuracy = [0, 0, 0, 0, 0, 0] # stores accuracy of each question
 
         for user in all_user:
-            if user.qflag1:
+            if user.qflag1: # if even 1 submission then denominator +1
                 user_sub_count[0] += 1
             if user.qflag2:
                 user_sub_count[1] += 1
@@ -288,7 +293,7 @@ def question_panel(request):
 
         for user in all_user:
 
-            if user.quest1test == 100:
+            if user.quest1test == 100:  # if ques score 100 then numerator +1
                 accuracy_count[0] += 1
             if user.quest2test == 100:
                 accuracy_count[1] += 1
@@ -305,7 +310,7 @@ def question_panel(request):
             try:
                 percentage_accuracy[i] = int((accuracy_count[i] / user_sub_count[i]) * 100)
             except ZeroDivisionError:
-                percentage_accuracy[i] = 0
+                percentage_accuracy[i] = 0  # since for the first get request no submissions so 0/0 error
 
         all_question = Questions.objects.all()
 
@@ -314,7 +319,7 @@ def question_panel(request):
         for i in all_question:
             i.accuracy = percentage_accuracy[a1]
             a1 += 1
-            i.save()
+            i.save()    # save the accuracy
 
         subs = []
         qtitle = []
@@ -338,8 +343,8 @@ def leader(request):
     if request.user.is_authenticated:
         a=UserProfileInfo.objects.order_by("total")
         b=a.reverse()
-        dict={'list':b,'t': timer()}
-        return render(request,'basic_app/Leaderboard.html',context=dict)
+        dict={'list': b, 't': timer()}
+        return render(request, 'basic_app/Leaderboard.html', context=dict)
 
     else:
         return HttpResponseRedirect(reverse('register'))
@@ -351,11 +356,11 @@ def instructions(request):
             user = UserProfileInfo.objects.get(user=request.user)
         except UserProfileInfo.DoesNotExist:
             user = UserProfileInfo()
-        if user.flag:
+        if user.flag:   # if user has before visited question panel and tries to come back
             return HttpResponseRedirect(reverse('question_panel'))
-        if request.method=="POST":
+        if request.method == "POST":
             return HttpResponseRedirect(reverse('question_panel'))
-        return render(request,'basic_app/instruction.html')
+        return render(request, 'basic_app/instruction.html')
     else:
         return HttpResponseRedirect(reverse('register'))
 
@@ -388,20 +393,20 @@ def register(request):
             user = UserProfileInfo.objects.get(user=request.user)
         except UserProfileInfo.DoesNotExist:
             user = UserProfileInfo()
-        if not user.flag:
+        if not user.flag:   # if not visited questions yet then:
             return HttpResponseRedirect(reverse('instructions'))
         return HttpResponseRedirect(reverse('question_panel'))
     else:
         try:
             global _flag
-            if not _flag:
+            if not _flag:   # if hits url for register in waiting page
                 return HttpResponseRedirect(reverse('waiting'))
             if request.method == 'POST':
                 username = request.POST.get('name')
-                username = username.split(" ")[0]
+                username = username.split(" ")[0]    # if spaced username then first word only
 
-                if username == "":
-                    return render(request,'basic_app/Loginn.html')
+                if username == "":  # back end verification
+                    return render(request, 'basic_app/Loginn.html')
                 password = request.POST.get('password')
                 name1 = request.POST.get('name1')
 
@@ -423,11 +428,11 @@ def register(request):
                 a = User.objects.create_user( username=username, password=password)
 
                 a.save()
-                login(request,a)
-                b=UserProfileInfo()
-                b.user=a
-                b.name1= name1
-                b.name2= name2
+                login(request, a)
+                b = UserProfileInfo()
+                b.user = a
+                b.name1 = name1
+                b.name2 = name2
                 b.phone1 = phone1
                 b.phone2 = phone2
                 b.email1 = email1
@@ -444,36 +449,36 @@ def register(request):
 
 def sub(request):
     user = UserProfileInfo.objects.get(user=request.user)
-    a = submissions.objects.filter(user=request.user,qid=user.question_id)
-    b=a.reverse()
+    a = submissions.objects.filter(user=request.user, qid=user.question_id) # create sub for that question for that user
+    b = a.reverse()                                                         # check models for clear picture
 
-    dict={'loop':b,'t':timer()}
-    return render(request,'basic_app/Submissionn.html',context=dict)
+    dict={'loop': b, 't': timer()}
+    return render(request, 'basic_app/Submissionn.html', context=dict)
 
 
-def retry(request,id=1):
-    if request.method=="GET":
+def retry(request, id=1):
+    if request.method == "GET":
         user = UserProfileInfo.objects.get(user=request.user)
-        a = submissions.objects.filter(user=request.user,qid=user.question_id)
-        array=[]
-        idd=[]
+        a = submissions.objects.filter(user=request.user, qid=user.question_id) # create sub for that question for that user
+        array = []  # all codes subs for that questions
+        idd = []    # for qids
 
         for i in a:
-            array.append(i.sub)
+            array.append(i.sub) # i.sub is code written by user
             idd.append(i.qid)
-        var= Questions.objects.all()
+        var = Questions.objects.all()
 
-        f=idd[int(id)-1]
-        q=var[int(f)-1]
-        question=q.questions
-        dict = {'sub': array[int(id)-1], 'question':question,'s':user.score,'t':timer()}
+        f = idd[int(id)-1]
+        q = var[int(f)-1]   # extract question from the url id
+        question = q.questions  # text of the question
+        dict = {'sub': array[int(id)-1], 'question': question, 's': user.score, 't': timer()}
 
         return render(request, 'basic_app/Codingg.html', context=dict)
-    if request.method=="POST":
+    if request.method == "POST":
         return questions(request)
 
 
-def checkuser(request):
+def checkuser(request): # ajax validation of username
     response_data = {}
     uname = request.POST.get("name")
     check1 = User.objects.filter(username=uname)
@@ -500,7 +505,7 @@ def loadbuff(request):
     return JsonResponse(response_data)
 
 
-def elogin(request):
+def elogin(request):    # emergency login
     if request.method == 'POST':
         adminpassword = 1
         username = request.POST.get('user')
@@ -518,3 +523,6 @@ def elogin(request):
 
     else:
         return render(request, 'basic_app/elogin.html', {})
+
+
+# COMMENTS COURTESY OF SAUMITRA KULKARNI :P
