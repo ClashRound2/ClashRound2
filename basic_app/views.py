@@ -57,7 +57,7 @@ def waiting(request):   # this view gets called every 5 seconds
 
         global starttime    # has current time + 1 min time in string format
 
-        if not starttime == "":
+        if not starttime == "": # condition to handle if user types url of waiting page from register page
             _time_string = starttime.split(":")
             _min = int(_time_string[1]) # extract the hour and min for later use
             _hour = int(_time_string[0])
@@ -173,7 +173,10 @@ def questions(request, id=1):
                         else:
                             user.score = user.score + senior[i]
 
-                cerror = " "
+                cerror = ""
+                tle_flag = False
+                abt_flag = False
+                rte_flag = False
 
                 if tcOut[4] == 3:   # if comiler error then store read it for error.txt which was made in main.py
                                     # and store it in strinf cerror to display on console
@@ -186,16 +189,20 @@ def questions(request, id=1):
                         cerror = cerror.replace(cerror2, '')    # scrape the file path of users
 
                 if tcOut[0] == 2 or tcOut[1] == 2 or tcOut[2] == 2 or tcOut[3] == 2 or tcOut[4] == 2:
-                    cerror = "Time limit exceeded"
+                    tle_flag = True
+                    status = "TLE"
 
                 if tcOut[0] == 4 or tcOut[1] == 4 or tcOut[2] == 4 or tcOut[3] == 4 or tcOut[4] == 4:
-                    cerror = "Abnormal Termination"
+                    abt_flag = True
+                    status = "W.A"
 
                 if tcOut[0] == 5 or tcOut[1] == 5 or tcOut[2] == 5 or tcOut[3] == 5 or tcOut[4] == 5:
-                    cerror = "Abnormal Termination"
+                    abt_flag = True
+                    status = "W.A"
 
                 if tcOut[0] == 6 or tcOut[1] == 6 or tcOut[2] == 6 or tcOut[3] == 6 or tcOut[4] == 6:
-                    cerror = "Run time error"   # strings to display on console
+                    rte_flag = True
+                    status = "RTE"   # strings to display on console
 
                 if int(id) == 1:
                     user.qflag1 = True  # flags to check if sumbitted(required for accuracy)
@@ -235,7 +242,6 @@ def questions(request, id=1):
                 a = Questions.objects.all()
                 Q = a[user.question_id - 1] # cuurent question object
 
-                status = 'Not completed'
 
                 for_count = 0
 
@@ -244,12 +250,13 @@ def questions(request, id=1):
                         for_count += 1
 
                 if for_count == 5:
-                    status = 'Completed'
+                    status = 'A.C'
                     Q._submissions += 1 # if score 100 then increase successful subs for that question by 1
                     Q.save()
 
-                elif for_count == 0:
-                    status = 'fail'
+                else:
+                    if not (tle_flag or rte_flag or abt_flag):
+                        status = 'W.A'
 
                 subb.testCaseScore = (for_count / 5) * 100  # testcase % completion
                 subb.save()
@@ -403,7 +410,6 @@ def register(request):
                 return HttpResponseRedirect(reverse('waiting'))
             if request.method == 'POST':
                 username = request.POST.get('name')
-                username = username.split(" ")[0]    # if spaced username then first word only
 
                 if username == "":  # back end verification
                     return render(request, 'basic_app/Loginn.html')
@@ -507,7 +513,7 @@ def loadbuff(request):
 
 def elogin(request):    # emergency login
     if request.method == 'POST':
-        adminpassword = 1
+        adminpassword = '1'
         username = request.POST.get('user')
         password = request.POST.get('pass')
         _password = request.POST.get('pass1')
