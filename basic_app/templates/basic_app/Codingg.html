@@ -51,8 +51,8 @@ editor.getSession().on("change", function () {
 });
    {% autoescape off %}
 
-    var a="{{ sub|escapejs }}"
-    var b="{{load|escapejs}}"
+    var a="#include<bits/stdc++.h>\n using namespace std; \n \n int main(){ \n \t ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);\n return 0; \n }"
+    var b="{{sub|escapejs}}"
     {% endautoescape %}
 
 console.log()

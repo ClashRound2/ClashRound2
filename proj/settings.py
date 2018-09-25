@@ -81,8 +81,8 @@ WSGI_APPLICATION = 'proj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'boi',
-        'USER': 'boiuser',
+        'NAME': 'git',
+        'USER': 'gituser',
         'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '',

@@ -130,12 +130,6 @@ def questions(request, id=1):
 
             testlist = ['fail', 'fail', 'fail', 'fail', 'fail']
 
-            myfile = open('{}/{}/{}.txt'.format(path3, str(user.question_id), str(user.question_id)))
-            content = myfile.readlines()    # juniorsenior marks for testcases stores in content
-
-            junior = [int(i.strip()) for i in content[0:5]] # first five for juniors
-            senior = [int(i.strip()) for i in content[5:10]]
-
             user.attempts += 1
 
             fo = open('{}/{}/question{}/{}{}.{}'.format(path, username, user.question_id, username, user.attempts, option), 'w')
@@ -157,7 +151,8 @@ def questions(request, id=1):
                     89: 3,  # compile time error
                     70: 4,  # Abnormal termination
                     20: 5,  # custom error
-                    60: 6   # Run time error
+                    60: 6,  # Run time error
+                    40: 7   # Motherfucking code
                 }
 
                 user.score = 0
@@ -168,23 +163,28 @@ def questions(request, id=1):
                     tcOut[i] = switch.get(data[i], 2)
                     if tcOut[i] == 0:  # if data[i] is 10 i.e correct answer
                         testlist[4 - i] = 'pass'    # since data stored in reverse order
-                        if juniorSenior == 'junior':
-                            user.score = user.score + junior[i]
-                        else:
-                            user.score = user.score + senior[i]
+
+                testlistcopy = ['pass', 'pass', 'pass', 'pass', 'pass']
+
+                if testlist == testlistcopy:
+                    user.score = 100
+                else:
+                    user.score = 0
 
                 cerror = ""
                 tle_flag = False
                 abt_flag = False
                 rte_flag = False
+                cte_flag = False
 
                 if tcOut[4] == 3:   # if comiler error then store read it for error.txt which was made in main.py
-                                    # and store it in strinf cerror to display on console
+                    cte_flag = True # and store it in strinf cerror to display on console
                     error = path + "/" + username + "/" + str("error{}.txt".format(user.question_id))
-
+                    status = "CTE"
                     with open(error, 'r') as e:
                         cerror = e.read()
                         cerror1 = cerror.split('/')
+
                         cerror2 = cerror1[0]+'/'+cerror1[1]+'/'+cerror1[2]+'/'
                         cerror = cerror.replace(cerror2, '')    # scrape the file path of users
 
@@ -198,9 +198,13 @@ def questions(request, id=1):
 
                 if tcOut[0] == 5 or tcOut[1] == 5 or tcOut[2] == 5 or tcOut[3] == 5 or tcOut[4] == 5:
                     abt_flag = True
-                    status = "W.A"
+                    status = "RTE"
 
                 if tcOut[0] == 6 or tcOut[1] == 6 or tcOut[2] == 6 or tcOut[3] == 6 or tcOut[4] == 6:
+                    rte_flag = True
+                    status = "RTE"   # strings to display on console
+
+                if tcOut[0] == 7 or tcOut[1] == 7 or tcOut[2] == 7 or tcOut[3] == 7 or tcOut[4] == 7:
                     rte_flag = True
                     status = "RTE"   # strings to display on console
 
@@ -242,7 +246,6 @@ def questions(request, id=1):
                 a = Questions.objects.all()
                 Q = a[user.question_id - 1] # cuurent question object
 
-
                 for_count = 0
 
                 for i in testlist:
@@ -255,8 +258,9 @@ def questions(request, id=1):
                     Q.save()
 
                 else:
-                    if not (tle_flag or rte_flag or abt_flag):
+                    if not (tle_flag or rte_flag or abt_flag or cte_flag):
                         status = 'W.A'
+                    for_count = 0
 
                 subb.testCaseScore = (for_count / 5) * 100  # testcase % completion
                 subb.save()
@@ -423,7 +427,7 @@ def register(request):
 
                 if len(phone1) is not 10:
                     return render(request, 'basic_app/Loginn.html')
-                phone2 = request.POST.get('phone1')
+                phone2 = request.POST.get('phone2')
                 email1 = request.POST.get('email1')
 
                 if email1 == "":
