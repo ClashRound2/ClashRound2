@@ -39,7 +39,7 @@ The name of the database should specificly be git and user should be gituser and
 Now run
 
 13 - python3 manage.py runserver 
-
+ 
 In the ClashRound2 folder to check if any errors.
 if any errors in uninstall above things and follow again correctly
 
