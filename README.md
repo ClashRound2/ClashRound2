@@ -36,6 +36,8 @@ The name of the database should specificly be git and user should be gituser and
 11 - FLUSH PRIVILEGES;<br>
 12 - exit<br>
 
+12.5 pip3 install mysqlclient<br>
+
 Now run
 
 13 - python3 manage.py runserver <br>
