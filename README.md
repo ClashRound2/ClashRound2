@@ -2,7 +2,7 @@
 
 Clone this repository.
 
-I will guide you through some series of sequential installations, if they are already installed skip them.
+I will guide you through some series of sequential installations(Ubuntu 16.04), if they are already installed skip them.
 
 0 - sudo apt-get update
 
